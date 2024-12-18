@@ -17,25 +17,26 @@ import { isValidToken, setSession } from './utils';
 const initialState = {
   user: null,
   loading: true,
+  error: null
 };
 
 const reducer = (state, action) => {
   if (action.type === 'INITIAL') {
     return {
       loading: false,
-      user: action.payload.user,
+      user: action.payload,
     };
   }
   if (action.type === 'LOGIN') {
     return {
       ...state,
-      user: action.payload.user,
+      user: action.payload,
     };
   }
   if (action.type === 'REGISTER') {
     return {
       ...state,
-      user: action.payload.user,
+      user: action.payload,
     };
   }
   if (action.type === 'LOGOUT') {
@@ -43,6 +44,12 @@ const reducer = (state, action) => {
       ...state,
       user: null,
     };
+  }
+  if (action.type === "ERROR") {
+    return {
+      ...state,
+      error: action.payload.error
+    }
   }
   return state;
 };
@@ -62,31 +69,23 @@ export function AuthProvider({ children }) {
         setSession(accessToken);
 
         const response = await axios.get(endpoints.auth.me);
-        console.log('response', response);
-
         const { user } = response.data.data;
-        console.log('user', user);
-
         dispatch({
           type: 'INITIAL',
-          payload: {
-            user,
-          },
+          payload: user,
         });
       } else {
         dispatch({
           type: 'INITIAL',
-          payload: {
-            user: null,
-          },
+          payload: null,
         });
       }
     } catch (error) {
-      console.error(error);
+      const err = error;
       dispatch({
-        type: 'INITIAL',
+        type: 'ERROR',
         payload: {
-          user: null,
+          error: err,
         },
       });
     }
@@ -104,28 +103,22 @@ export function AuthProvider({ children }) {
     };
 
     const response = await axios.post(endpoints.auth.login, data);
-    console.log(response);
-
     const { accessToken, user } = response.data.data;
 
     setSession(accessToken);
-
     dispatch({
       type: 'LOGIN',
-      payload: {
-        user,
-      },
+      payload: user,
     });
   }, []);
 
   // REGISTER
   const register = useCallback(
-    async (email, password, firstName, lastName) => {
+    async (email, password, name) => {
       const data = {
         email,
         password,
-        firstName,
-        lastName,
+        name
       };
 
       try {
@@ -143,7 +136,6 @@ export function AuthProvider({ children }) {
           },
         });
 
-        // Automatically login after registration
         await login(email, password); // Call login after successful registration
       } catch (error) {
         console.error('Registration error:', error);
@@ -152,6 +144,36 @@ export function AuthProvider({ children }) {
     [login]
   );
 
+  // Update Profile
+  const update = useCallback(async (userId, email, password, name) => {
+    const data = {
+      userId,
+      email,
+      password,
+      name
+    };
+    
+    try {
+      const response = await axios.post(endpoints.auth.update, data);
+      const { accessToken, user } = response.data.data;
+
+      // Store the accessToken in sessionStorage
+      sessionStorage.setItem(STORAGE_KEY, accessToken);
+      console.log('updated User:', user)
+      // Dispatch REGISTER action
+      dispatch({
+        type: 'REGISTER',
+        payload: {
+          user,
+        },
+      });
+
+      await login(email, password); // Call login after successful registration
+    } catch (error) {
+      console.error('UpdateProfile error:', error);
+    }
+  },[login])
+  
   // LOGOUT
   const logout = useCallback(async () => {
     setSession(null);
@@ -163,12 +185,11 @@ export function AuthProvider({ children }) {
   // ----------------------------------------------------------------------
 
   const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
-
   const status = state.loading ? 'loading' : checkAuthenticated;
-
+  const userData = state.user;
   const memoizedValue = useMemo(
     () => ({
-      user: state.user,
+      user: userData,
       method: 'jwt',
       loading: status === 'loading',
       authenticated: status === 'authenticated',
@@ -176,9 +197,10 @@ export function AuthProvider({ children }) {
       //
       login,
       register,
+      update,
       logout,
     }),
-    [login, logout, register, state.user, status]
+    [login, logout, register, update, userData, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;

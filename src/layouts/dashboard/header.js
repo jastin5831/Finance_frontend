@@ -20,7 +20,7 @@ import { AccountPopover } from '../_common';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+export default function Header({ onOpenNav, onOpenModal}) {
   const theme = useTheme();
 
   const settings = useSettingsContext();
@@ -45,8 +45,6 @@ export default function Header({ onOpenNav }) {
         </IconButton>
       )}
 
-      {/* <Searchbar /> */}
-
       <Stack
         flexGrow={1}
         direction="row"
@@ -62,7 +60,7 @@ export default function Header({ onOpenNav }) {
 
         <SettingsButton /> */}
 
-        <AccountPopover />
+        <AccountPopover onOpenModal={onOpenModal} />
       </Stack>
     </>
   );
@@ -110,4 +108,5 @@ export default function Header({ onOpenNav }) {
 
 Header.propTypes = {
   onOpenNav: PropTypes.func,
+  onOpenModal: PropTypes.func,
 };

@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 // @mui
 import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
@@ -12,7 +16,7 @@ import Header from './header';
 import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
 import NavHorizontal from './nav-horizontal';
-
+import UpdateProfile from './update';
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout({ children }) {
@@ -32,6 +36,39 @@ export default function DashboardLayout({ children }) {
 
   const renderNavVertical = <NavVertical openNav={nav.value} onCloseNav={nav.onFalse} />;
 
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleModal = (value) => setOpenModal(value);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    borderRadius: 2,
+  };
+
+  const renderModal = (
+    <Modal open={openModal} onClose={() => handleModal(false)}>
+      <Box sx={{ ...modalStyle, position: 'relative' }}>
+      <IconButton 
+        onClick={() => handleModal(false)} 
+        sx={{ position: 'absolute', top: 8, right: 8, color: 'gray' }}
+      >
+        <CloseIcon />
+      </IconButton>
+
+      <h2 style={{ textAlign: 'center' }}>Update Profile</h2>
+      
+      <UpdateProfile />
+    </Box>
+    </Modal>
+  );
+
   if (isHorizontal) {
     return (
       <>
@@ -47,8 +84,7 @@ export default function DashboardLayout({ children }) {
   if (isMini) {
     return (
       <>
-        <Header onOpenNav={nav.onTrue} />
-
+        <Header onOpenNav={nav.onTrue} onOpenModal={handleModal}/>
         <Box
           sx={{
             minHeight: 1,
@@ -59,6 +95,7 @@ export default function DashboardLayout({ children }) {
           {lgUp ? renderNavMini : renderNavVertical}
 
           <Main>{children}</Main>
+          {renderModal}
         </Box>
       </>
     );
@@ -66,8 +103,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <>
-      <Header onOpenNav={nav.onTrue} />
-
+      <Header onOpenNav={nav.onTrue} onOpenModal={handleModal}/>
       <Box
         sx={{
           minHeight: 1,
@@ -78,6 +114,7 @@ export default function DashboardLayout({ children }) {
         {renderNavVertical}
 
         <Main>{children}</Main>
+        {renderModal}
       </Box>
     </>
   );

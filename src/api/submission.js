@@ -27,7 +27,6 @@ export const GetSubmissionByDate = async (selectedDate) => {
       },
     });
 
-    console.log('Submission retrieved successfully:', response.data);
     return response.data;
   } catch (error) {
     console.error(

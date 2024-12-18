@@ -1,4 +1,5 @@
 import { m } from 'framer-motion';
+import PropTypes from 'prop-types';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -7,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { Grid } from '@mui/material';
 // routes
 import { useRouter } from 'src/routes/hooks';
 // hooks
@@ -17,12 +19,11 @@ import { varHover } from 'src/components/animate';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import BaseOptions from 'src/components/settings/drawer/base-option';
 import { useSettingsContext } from 'src/components/settings';
-
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopover({onOpenModal}) {
   const router = useRouter();
   const settings = useSettingsContext();
 
@@ -31,7 +32,9 @@ export default function AccountPopover() {
   const { logout, user } = useAuthContext();
 
   const popover = usePopover();
-
+  const updateProfile = () => {
+    onOpenModal(true)
+  }
   const handleLogout = async () => {
     try {
       await logout();
@@ -97,13 +100,31 @@ export default function AccountPopover() {
         </Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem
-          onClick={handleLogout}
-          sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
-        >
-          Logout
-        </MenuItem>
+        <Box>
+          <Grid container justifyContent='space-evenly'>
+            <Grid item lg={4} >
+              <MenuItem
+                onClick={updateProfile}
+                sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign:'center' }}
+              >
+                Update
+              </MenuItem>
+            </Grid>
+            <Grid item lg={4} >
+              <MenuItem
+                onClick={handleLogout}
+                sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign: 'center'}}
+              >
+                Logout
+              </MenuItem>
+            </Grid>
+          </Grid>
+        </Box>
       </CustomPopover>
     </>
   );
 }
+
+AccountPopover.propTypes = {
+  onOpenModal: PropTypes.func,
+};

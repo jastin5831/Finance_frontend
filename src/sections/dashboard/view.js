@@ -25,7 +25,6 @@ export default function Dashboard() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-
   useEffect(() => {
     const fetchSubmission = async () => {
       try {
@@ -78,37 +77,35 @@ export default function Dashboard() {
           </section>
         </Box>
       </Box>
-      {!error && (
-        <Grid container spacing={2} pt={3}>
-          <Grid xs={12} md={8} lg={4}>
-            <AnalyticsCurrentVisits
-              title="Revenue Distribtion"
-              chart={{
-                series: submission?.data?.revenue ?? [
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                ],
-              }}
-            />
-          </Grid>
-          <Grid xs={12} md={6} lg={8} pl={2}>
-            <AnalyticsConversionRates
-              title="Total Revenue by stream"
-              subheader="Our Generated Revenue"
-              chart={{
-                series: submission?.data?.expense ?? [
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                  { name: '', value: 0 },
-                ],
-              }}
-            />
-          </Grid>
+      <Grid container spacing={2} pt={3}>
+        <Grid item xs={12} md={8} lg={4}>
+          <AnalyticsCurrentVisits
+            title="Revenue Distribtion"
+            chart={{
+              series: submission?.data?.revenue ?? [
+                { name: 'a', value: 1 },
+                { name: 'b', value: 1 },
+                { name: 'c', value: 1 },
+                { name: 'd', value: 1 },
+              ],
+            }}
+          />
         </Grid>
-      )}
+        <Grid item xs={12} md={6} lg={8} pl={2}>
+          <AnalyticsConversionRates
+            title="Total Revenue by stream"
+            subheader="Our Generated Revenue"
+            chart={{
+              series: submission?.data?.expense ?? [
+                { name: 'a', value: 1 },
+                { name: 'b', value: 1 },
+                { name: 'c', value: 1 },
+                { name: 'd', value: 1 },
+              ],
+            }}
+          />
+        </Grid>
+      </Grid>
       {error && (
         <Box
           sx={{

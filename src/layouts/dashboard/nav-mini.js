@@ -19,7 +19,7 @@ export default function NavMini() {
   const { user } = useMockedUser();
 
   const navData = useNavData();
-
+  
   return (
     <Box
       component="nav"

@@ -14,7 +14,7 @@ export default function AnalyticsConversionRates({ title, subheader, chart, ...o
   const { colors, series, options } = chart;
 
   const chartSeries = series.map((i) => i.value);
-  console.log('series', series);
+  console.log('RateSeries', series);
   const chartOptions = useChart({
     colors,
     tooltip: {

@@ -32,7 +32,7 @@ export default function AnalyticsCurrentVisits({ title, subheader, chart, ...oth
   const theme = useTheme();
 
   const { colors, series, options } = chart;
-  console.log('series', series);
+  console.log('VisitSeries', series);
   const chartSeries = series?.map((i) => i.value);
 
   const chartOptions = useChart({

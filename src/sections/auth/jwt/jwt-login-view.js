@@ -36,7 +36,6 @@ export default function JwtLoginView() {
   const searchParams = useSearchParams();
 
   const returnTo = searchParams.get('returnTo');
-
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
@@ -63,7 +62,6 @@ export default function JwtLoginView() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await login?.(data.email, data.password);
-
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);

@@ -35,7 +35,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-
+  
   const renderContent = (
     <Scrollbar
       sx={{
