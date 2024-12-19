@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
+import {LoadingButton} from '@mui/lab';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -86,9 +86,9 @@ export default function UpdateProfile() {
         <LoadingButton
           fullWidth
           color="primary"
+          variant='contained'
           size="medium"
           type="submit"
-          variant="contained"
           loading={isSubmitting}
         >
           Update Profile

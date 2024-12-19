@@ -10,8 +10,8 @@ import { LoadingScreen } from 'src/components/loading-screen';
 // ----------------------------------------------------------------------
 
 const IndexPage = lazy(() => import('src/pages/dashboard/dashboard'));
-const PageTwo = lazy(() => import('src/pages/dashboard/revenue'));
-const PageThree = lazy(() => import('src/pages/dashboard/details'));
+const UploadResult = lazy(() => import('src/pages/dashboard/uploadResult'));
+const DataForecast = lazy(() => import('src/pages/dashboard/dataForecast'));
 const PageFour = lazy(() => import('src/pages/dashboard/four'));
 const PageFive = lazy(() => import('src/pages/dashboard/five'));
 const PageSix = lazy(() => import('src/pages/dashboard/six'));
@@ -32,8 +32,8 @@ export const dashboardRoutes = [
     ),
     children: [
       { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
+      { path: 'uploadResult', element: <UploadResult /> },
+      { path: 'dataForecast', element: <DataForecast /> },
       {
         path: 'group',
         children: [

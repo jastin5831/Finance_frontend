@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
+import Logo from 'src/components/logo';
 // hooks
-import { Typography } from '@mui/material';
 import { useResponsive } from 'src/hooks/use-responsive';
 // hooks
 import { useMockedUser } from 'src/hooks/use-mocked-user';
@@ -33,8 +33,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, openNav, onCloseNav]);
   
   const renderContent = (
     <Scrollbar
@@ -47,10 +46,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
         },
       }}
     >
-      {/* <Logo sx={{ mt: 3, ml: 4, mb: 1 }} /> */}
-      <Box sx={{ mt: 3, ml: 4, mb: 3 }}>
-        <Typography>Logo Here</Typography>
-      </Box>
+      <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
       <NavSectionVertical
         data={navData}
         config={{
