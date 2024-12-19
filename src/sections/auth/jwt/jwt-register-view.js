@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
+import {LoadingButton} from '@mui/lab';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -130,9 +130,9 @@ export default function JwtRegisterView() {
         <LoadingButton
           fullWidth
           color="inherit"
+          variant='contained'
           size="large"
           type="submit"
-          variant="contained"
           loading={isSubmitting}
         >
           Create account

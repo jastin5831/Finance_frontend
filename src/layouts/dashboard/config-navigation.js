@@ -44,9 +44,9 @@ export function useNavData() {
         subheader: 'overview v5.4.0',
         items: [
           { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'Submission', path: paths.dashboard.two, icon: ICONS.ecommerce },
+          { title: 'Upload Result', path: paths.dashboard.two, icon: ICONS.file },
           {
-            title: 'Results',
+            title: 'Data & Forecast',
             path: paths.dashboard.three,
             icon: ICONS.analytics,
           },

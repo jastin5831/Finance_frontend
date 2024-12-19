@@ -16,7 +16,7 @@ import SvgColor from 'src/components/svg-color';
 import { useSettingsContext } from 'src/components/settings';
 //
 import { HEADER, NAV } from '../config-layout';
-import { AccountPopover } from '../_common';
+import { AccountPopover, SettingsButton } from '../_common';
 
 // ----------------------------------------------------------------------
 
@@ -52,13 +52,13 @@ export default function Header({ onOpenNav, onOpenModal}) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1 }}
       >
-        {/* <LanguagePopover />
+        {/* <LanguagePopover /> */}
 
-        <NotificationsPopover />
+        {/* <NotificationsPopover /> */}
 
-        <ContactsPopover />
+        {/* <ContactsPopover /> */}
 
-        <SettingsButton /> */}
+        <SettingsButton />
 
         <AccountPopover onOpenModal={onOpenModal} />
       </Stack>

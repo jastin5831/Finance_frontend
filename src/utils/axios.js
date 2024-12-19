@@ -58,4 +58,12 @@ export const endpoints = {
     getSubmissionByCurrentDate: '/api/submission/current-submission',
     submissionDifference: '/api/submission/submission-difference',
   },
+  revenue: {
+    create: '/api/revenue/create',
+    getRevenue: '/api/revenue/getRevenue'
+  },
+  coa: {
+    create: '/api/coa/create',
+    getCOA: '/api/coa/getCOA'
+  }
 };

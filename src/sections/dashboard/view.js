@@ -34,13 +34,11 @@ export default function Dashboard() {
           const formattedDate = adjustedDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
 
           const data = await GetSubmissionByDate(formattedDate);
-          console.log('data', data);
           setSubmission(data);
           setError(null);
         }
       } catch (err) {
         setError(err);
-        console.error('Failed to fetch submission:', err);
       }
     };
 

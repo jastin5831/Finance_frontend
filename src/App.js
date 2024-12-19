@@ -5,6 +5,10 @@ import 'simplebar-react/dist/simplebar.min.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // ----------------------------------------------------------------------
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // routes
 import Router from 'src/routes/sections';
@@ -18,7 +22,6 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
 // auth
 import { AuthProvider, AuthConsumer } from 'src/auth/context/jwt';
-
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -53,7 +56,9 @@ export default function App() {
             <SettingsDrawer />
             <ProgressBar />
             <AuthConsumer>
-              <Router />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Router />
+              </LocalizationProvider>
             </AuthConsumer>
           </MotionLazy>
         </ThemeProvider>
