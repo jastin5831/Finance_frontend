@@ -32,9 +32,7 @@ export default function AnalyticsCurrentVisits({ title, subheader, chart, ...oth
   const theme = useTheme();
 
   const { colors, series, options } = chart;
-  console.log('VisitSeries', series);
   const chartSeries = series?.map((i) => i.value);
-
   const chartOptions = useChart({
     chart: {
       sparkline: {
@@ -80,8 +78,7 @@ export default function AnalyticsCurrentVisits({ title, subheader, chart, ...oth
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
-
+      <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
       <StyledChart dir="ltr" type="pie" series={chartSeries} options={chartOptions} height={280} />
     </Card>
   );

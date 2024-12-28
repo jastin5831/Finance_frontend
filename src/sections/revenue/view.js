@@ -7,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import dayjs from 'dayjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import axios, { endpoints } from 'src/utils/axios';
+import { CreateCOA, CreateRevenue, GetCOA, GetRevenue } from 'src/api/revenue';
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import UploadFile from './uploadFile';
@@ -43,24 +43,20 @@ export default function UploadResult() {
   const onSubmit = async () => {
     setUploadState(true)
     const saveDate = dayjs(currentDate).format('MMMM YYYY');
+    const dateflag = dayjs(currentDate).year()*100 + dayjs(currentDate).month();
     const data = {
       userId: user._id,
       date: saveDate,
+      dateFlag: dateflag,
       data: result
     }
     if(!data.data || data.data.length === 0) {
-      console.log("data required!")
+      console.log("Monthly Result data required!")
       setUploadState(false)
     } else {
-      await axios.post(endpoints.revenue.create, data)
-              .then(res => {
-                console.log(res.data)
-                setUploadState(false)
-              })
-              .catch(err => {
-                setUploadState(false)
-                console.log(err)
-              })
+      const response = await CreateRevenue(data)
+      setResult(response);
+      setUploadState(false)
     }
   }
 
@@ -71,18 +67,12 @@ export default function UploadResult() {
       data: COAResult
     }
     if(!data.data || data.data.length === 0) {
-      console.log("data required!")
+      console.log("COA data required!")
       setUploadCOA(false)
     } else {
-      await axios.post(endpoints.coa.create, data)
-              .then(res => {
-                console.log(res.data)
-                setUploadCOA(false)
-              })
-              .catch(err => {
-                setUploadCOA(false)
-                console.log(err)
-              })
+      const response = await CreateCOA(data)
+      setCOAResult(response)
+      setUploadCOA(false)
     }
   }
 
@@ -90,25 +80,16 @@ export default function UploadResult() {
     const getRevenue = async () => {
       const saveDate = dayjs(currentDate).format('MMMM YYYY');
       const data = {userId: user._id, date: saveDate}
-      await axios.post(endpoints.revenue.getRevenue, data)
-              .then(res => {
-                setResult(res.data.data.data);
-              })
-              .catch(err => {
-                setResult([])
-              })
+      const response = await GetRevenue(data)
+      setResult(response);
     }
 
     const getCOA = async () => {
       const data = {userId: user._id}
-      await axios.post(endpoints.coa.getCOA, data)
-              .then(res => {
-                setCOAResult(res.data.data.data);
-              })
-              .catch(err => {
-                setCOAResult([])
-              })
+      const response = await GetCOA(data)
+      setCOAResult(response);
     }
+
     getRevenue()
     getCOA()
   },[currentDate, user._id])
@@ -128,7 +109,7 @@ export default function UploadResult() {
             p: 0.2,
           }}
         >
-          <DatePicker value={currentDate} onChange={handleDateChange}/>
+          <DatePicker views={['month', 'year']}  value={currentDate} onChange={handleDateChange}/>
         </Box>
       </Box>
 

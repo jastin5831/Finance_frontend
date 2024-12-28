@@ -1,67 +1,68 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// @mui
-import Box from '@mui/material/Box';
-import CardHeader from '@mui/material/CardHeader';
-import Card from '@mui/material/Card';
-// utils
-import { fNumber } from 'src/utils/format-number';
-// components
-import Chart, { useChart } from 'src/components/chart';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ChartContainer } from '@mui/x-charts/ChartContainer';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  LinePlot,
+  MarkPlot,
+  lineElementClasses,
+  markElementClasses,
+} from '@mui/x-charts/LineChart';
+
+const valueArr = [200, 0, 900, 300, 1200];
+const nameArr = [
+  'Page A',
+  'Page B',
+  'Page C',
+  'Page D',
+  'Page E',
+];
 
 // ----------------------------------------------------------------------
 
-export default function AnalyticsConversionRates({ title, subheader, chart, ...other }) {
-  const { colors, series, options } = chart;
+export default function AnalyticsConversionRates({chart}) {
+  const [chartData, setChartData] = useState({
+    name:nameArr, value:valueArr
+  })
 
-  const chartSeries = series.map((i) => i.value);
-  console.log('RateSeries', series);
-  const chartOptions = useChart({
-    colors,
-    tooltip: {
-      marker: { show: false },
-      y: {
-        formatter: (value) => fNumber(value),
-        title: {
-          formatter: () => '',
-        },
-      },
-    },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-        barHeight: '28%',
-        borderRadius: 2,
-      },
-    },
-    xaxis: {
-      categories: series.map((i) => i.name),
-      labels: {
-        show: true, // Ensure the labels are visible
-        formatter: (value, index) => fNumber(series[index]?.value), // Format and show the value corresponding to the category
-      },
-    },
-    ...options,
-  });
+  useEffect(() => {
+    const tempData = {name:[], value:[]}
+    if(Array.isArray(chart) && chart.length >0) {
+      chart.forEach(item => {
+        tempData.name.push(item.year.toString()); 
+        tempData.value.push(item.value)
+      })
+      setChartData(tempData)
+    }
+  },[setChartData, chart])
 
   return (
-    <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
-
-      <Box sx={{ mx: 3 }}>
-        <Chart
-          type="bar"
-          dir="ltr"
-          series={[{ data: chartSeries }]}
-          options={chartOptions}
-          height={364}
-        />
-      </Box>
-    </Card>
+    <ChartContainer
+      width={135}
+      height={150}
+      xAxis={[{ scaleType: 'point', data: chartData.name }]}
+      series={[{ type: 'line', data: chartData.value }]}
+      sx={{
+        [`& .${lineElementClasses.root}`]: {
+          stroke: '#8884d8',
+          strokeWidth: 1,
+        },
+        [`& .${markElementClasses.root}`]: {
+          stroke: '#8884d8',
+          scale: '0.5',
+          fill: '#fff',
+          strokeWidth: 2,
+        },
+      }}
+      disableAxisListener
+    >
+      <LinePlot />
+      <MarkPlot />
+    </ChartContainer>
   );
 }
 
 AnalyticsConversionRates.propTypes = {
-  chart: PropTypes.object,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
+  chart: PropTypes.array,
 };

@@ -60,7 +60,8 @@ export const endpoints = {
   },
   revenue: {
     create: '/api/revenue/create',
-    getRevenue: '/api/revenue/getRevenue'
+    getRevenue: '/api/revenue/getRevenue',
+    getRevenueByMonth: '/api/revenue/getRevenueByMonth'
   },
   coa: {
     create: '/api/coa/create',
