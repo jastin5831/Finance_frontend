@@ -2,8 +2,6 @@ import axios from 'axios';
 // config
 import { HOST_API } from 'src/config-global';
 
-// ----------------------------------------------------------------------
-
 const axiosInstance = axios.create({ baseURL: HOST_API });
 
 axiosInstance.interceptors.response.use(
@@ -60,7 +58,8 @@ export const endpoints = {
   },
   revenue: {
     create: '/api/revenue/create',
-    getRevenue: '/api/revenue/getRevenue'
+    getRevenue: '/api/revenue/getRevenue',
+    getRevenueByMonth: '/api/revenue/getRevenueByMonth'
   },
   coa: {
     create: '/api/coa/create',
