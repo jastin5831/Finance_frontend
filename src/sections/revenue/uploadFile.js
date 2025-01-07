@@ -44,6 +44,19 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   
+  const formatRow = (row) => {
+    const tempData = [];
+    row.map(item => {
+      const tempItem = [...item];
+      if(typeof(item[0]) !== 'string') tempItem[0] = tempItem[0].toString();
+      if(typeof(item[1]) !== 'string') tempItem[1] = tempItem[1].toString();
+      if(item[2] < 0) tempItem[2] =  Math.abs(tempItem[2])
+      tempData.push(tempItem);
+      return true;
+    })
+    return tempData;
+  }
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -59,9 +72,9 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
 
         if (jsonData.length > 0) {
           const rows = jsonData.slice(1);
-          onSetResult(rows);
-          setTableData(rows);
-          console.log(rows)
+          const tempRow = formatRow(rows);
+          onSetResult(tempRow);
+          setTableData(tempRow);
         }
       };
       reader.readAsArrayBuffer(file);

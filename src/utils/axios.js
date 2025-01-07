@@ -38,31 +38,18 @@ export const endpoints = {
     details: '/api/mail/details',
     labels: '/api/mail/labels',
   },
-  post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
-  },
-  product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
-  },
-  submission: {
-    create: '/api/submission/create',
-    update: '/api/submission/create-forecast',
-    getSubmissionByDate: '/api/submission/get-submission',
-    getSubmissionByCurrentDate: '/api/submission/current-submission',
-    submissionDifference: '/api/submission/submission-difference',
-  },
   revenue: {
     create: '/api/revenue/create',
     getRevenue: '/api/revenue/getRevenue',
-    getRevenueByMonth: '/api/revenue/getRevenueByMonth'
+    getRevenueByMonth: '/api/revenue/getRevenueByMonth',
   },
   coa: {
     create: '/api/coa/create',
-    getCOA: '/api/coa/getCOA'
+    getCOA: '/api/coa/getCOA',
+  },
+  forecast: {
+    create: '/api/forecast/create',
+    update: '/api/forecast/update',
+    get: '/api/forecast/get',
   }
 };

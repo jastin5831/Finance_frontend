@@ -10,6 +10,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { CreateCOA, CreateRevenue, GetCOA, GetRevenue } from 'src/api/revenue';
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
+import { CreateForecast } from 'src/api/forecast';
 import UploadFile from './uploadFile';
 import './style.css';
 // ----------------------------------------------------------------------
@@ -56,6 +57,7 @@ export default function UploadResult() {
     } else {
       const response = await CreateRevenue(data)
       setResult(response);
+      await CreateForecast(data, COAResult);
       setUploadState(false)
     }
   }

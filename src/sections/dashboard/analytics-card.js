@@ -17,30 +17,30 @@ const AnalyticsCard = ({title,data}) => {
       data.forEach((element,index) => {
         tempData.value += element.value;
         if(index === 0) tempData.rise = element.value;
-        if(index === data.length - 1) tempData.rise = (tempData.rise - element.value) * 100/tempData.rise 
+        if(index === data.length - 1) tempData.rise = ((element.value - tempData.rise) * 100/element.value ).toPrecision(4)
       });
       setCardData(tempData);
     }
   },[setCardData, data, title])
 
   return (
-    <Card sx={{maxHeight:300}}>
+    <Card sx={{maxHeight:{xs:500, md:300}}}>
       <Box 
         sx={{ 
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, 
-            flexDirection: { xs: 'column',  md:'row' }, maxHeight:250
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1, 
+            flexDirection: { xs: 'column',  md:'row' }, maxHeight:{xs:450,md:250}
         }}
       >
-        <Box sx={{width:{xs:'80%',md:'50%'}}}>
-          <Typography>{title}</Typography>
-          <Box>
-            <Typography fontSize={40} fontWeight={600}>
+        <Box sx={{width:{xs:'100%', md:'50%'}, height:{xs:200, md:200}}} padding={2}>
+          <Typography paddingBottom={1}>{title}</Typography>
+          <Box sx={{pt:2}}>
+            <Typography fontSize={40} fontWeight={600} padding={1}>
               {cardData.value.toLocaleString()}
             </Typography>
             <Box
               sx={{ 
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',  
-                flexDirection: { sm: 'row' }
+                flexDirection: { sm: 'row' }, pt:2
               }}
             >
                 <Box>{cardData.rise >=0 ? <TrendingUpIcon color='success'/> : <TrendingDownIcon color='error'/>}</Box>
@@ -49,8 +49,8 @@ const AnalyticsCard = ({title,data}) => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{width:{xs:'80%',md:'50%'}}}>
-          <AnalyticsConversionRates chart={data}/>
+        <Box sx={{width:{xs:'100%',md:'50%'}, height:{xs:200, md: 250}}}>
+          <AnalyticsConversionRates chart={data} width="100%" height="100%"/>
         </Box>
       </Box>
     </Card>

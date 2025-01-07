@@ -13,7 +13,9 @@ import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import AnalyticsCurrentVisits from './analytics-current-visits';
 import AnalyticsCard from './analytics-card';
+
 // ----------------------------------------------------------------------
+
 const checkData = (totalResult, temp, item, coaData) => {
   const tempResult = totalResult
   const setTotalResult = (type) => {
@@ -83,7 +85,7 @@ const checkData = (totalResult, temp, item, coaData) => {
 
 // monthly data
 const divideData = (mData, coa) => {
-  const totalResult = { revenue: [], expense: [], totalRevenue: 0, netIncome: 0, grossProfit: 0 };
+  const totalResult = { revenue: [], expense: []};
   const temp = { revenue: 0, cogs: 0, so: 0, sga: 0, salaries: 0, taxes: 0, amorization: 0, project: 0 };
   mData.forEach((item) => {
     coa.map( (coaData) => {
@@ -154,7 +156,7 @@ const handleValue = (data,coa) => {
   data.forEach((item) => {
     if (item.data.length > 0 && Array.isArray(item.data)) {
       const date = item.dateFlag;
-      const temp = item.data;
+      const temp = [...item.data];
       // item.data => one month's result => It's array.
       const monthlyResult = divideData(temp, coa);
       addMonthlyResult(monthlyResult, date);
@@ -197,6 +199,7 @@ export default function Dashboard() {
             date: dateRange
           }
           const dataResult = await GetRevenueByMonth(data);
+          dataResult.data.reverse()
           const summarize = handleValue(dataResult.data, coa);
           setResult(summarize)
           setError(null);  
@@ -216,6 +219,7 @@ export default function Dashboard() {
     };
     fetchCOA();
   }, [user._id]);
+  
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
