@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 // components
 import { Box, Container, Divider, Typography} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import {toast } from 'react-toastify';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { CreateCOA, CreateRevenue, GetCOA, GetRevenue } from 'src/api/revenue';
@@ -34,7 +36,19 @@ export default function UploadResult() {
   };
 
   const handleSetResult = (value) => {
-    setResult(value)
+    const aggregatedData = Object.values(
+      value.reduce((acc, item) => {
+        const key = item[3]; 
+        if (!acc[key]) {
+          acc[key] = [...item]; 
+        } else {
+          acc[key][2] += item[2];
+        }
+        return acc;
+      }, {})
+    );
+    
+    setResult(aggregatedData)
   }
 
   const handleSetCOAResult = (value) => {
@@ -55,9 +69,19 @@ export default function UploadResult() {
       console.log("Monthly Result data required!")
       setUploadState(false)
     } else {
-      const response = await CreateRevenue(data)
-      setResult(response);
-      await CreateForecast(data, COAResult);
+      const resRev = await CreateRevenue(data)
+      if(resRev.type === "success") {
+        toast.success('Revenue Successfully Uploaded',{theme: "colored"})
+        setResult(resRev.data);
+      }else {
+        toast.error('Revenue Upload Error',{theme: "colored"})
+      }
+      const resFore = await CreateForecast(data, COAResult);
+      if(resFore === "success") {
+        toast.success('Forecast Successfully Uploaded',{theme: "colored"})
+      }else {
+        toast.error('Forecast Upload Error',{theme: "colored"})
+      }
       setUploadState(false)
     }
   }
@@ -73,7 +97,12 @@ export default function UploadResult() {
       setUploadCOA(false)
     } else {
       const response = await CreateCOA(data)
-      setCOAResult(response)
+      if(response.type === "success") {
+        toast.success('CoA Successfully Uploaded',{theme: "colored"})
+      }else {
+        toast.error('COA Upload Error',{theme: "colored"})
+      }
+      setCOAResult(response.data)
       setUploadCOA(false)
     }
   }
@@ -83,13 +112,23 @@ export default function UploadResult() {
       const saveDate = dayjs(currentDate).format('MMMM YYYY');
       const data = {userId: user._id, date: saveDate}
       const response = await GetRevenue(data)
-      setResult(response);
+      if(response.type === "success") {
+        toast.success("Revenue Successfully Upload!",{theme: "colored"});
+        setResult(response.data);
+      }else {
+        toast.error('Revenue Upload Error', {theme: "colored"})
+      }
     }
 
     const getCOA = async () => {
       const data = {userId: user._id}
       const response = await GetCOA(data)
-      setCOAResult(response);
+      if(response.type === "success") {
+        toast.success("COA Successfully Upload!",{theme: "colored"});
+        setCOAResult(response.data);
+      }else {
+        toast.error('COA Upload Error', {theme: "colored"})
+      }
     }
 
     getRevenue()

@@ -14,11 +14,15 @@ import {
   TableSortLabel,
   InputAdornment,
   IconButton,
+  Button,
+  Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import { parseInt } from 'lodash';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { toast } from 'react-toastify';
 
 const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => {
   const [tableData, setTableData] = useState([]);
@@ -29,7 +33,8 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const header = ['AccountID', 'RevenueExpenseID', 'Description'];
-  
+  const [newRow, setNewRow] = useState(null);
+
   const handleSearchChange = (event) => {
     setTempQuery(event.target.value);
   };
@@ -52,6 +57,39 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
   const handleSearch = () => {
     setSearchQuery(tempQuery);
   }
+
+  const addEditableRow = () => {
+    setNewRow({
+      AccountId: '',
+      RevenueExpenseId: '',
+      Description: '',
+      data: month.map(() => ({ actual: 0, forecast: 0 })),
+      average:0,
+      userInfo: 0,
+      result: 0,
+    });
+  };
+  
+  const saveNewRow = () => {
+    let flag = true;
+    if(newRow.AccountID === '' && newRow.RevenueExpenseId === '' && newRow.Description === '' && newRow.userInfo === 0) {
+      flag = false;
+      toast.warn('Missing Value',{theme:'colored'})
+    }
+    if (newRow && flag) {
+      const tempData = [...tableData, newRow];
+      changeResult(tempData)
+      setNewRow(null); 
+    }
+  };
+
+  const cancelNewRow = () => {
+    setNewRow(null);
+  };
+
+  const handleInputChange = (field, value) => {
+    setNewRow((prev) => ({ ...prev, [field]: value }));
+  };
 
   const sortedData = [...tableData].sort((a, b) => {
     if (!orderBy) return 0;
@@ -91,10 +129,15 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
 
   const changeUserInfo = (value, id) => {
     const tempData = tableData.map(item => {
-      const realValue = parseInt(value);
-      const tempResult = item.average + realValue
+      let realValue = 0
+      realValue = parseInt(value);
+      if(value === '' || value === undefined ) {
+        realValue = 0;
+      }
+      if(item.average === '' || item.average === undefined) {item.average = 0;}
+      const tempResult = parseInt(item.average + realValue);
       if(item.RevenueExpenseId === id) {
-        return { ...item, userInfo: realValue , result: tempResult}
+        return { ...item, userInfo: value , result: tempResult}
       };
       return item;
     })
@@ -147,18 +190,29 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
             sx={{ width: '40%' }}
           />
           <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mr: 4,
-              border: '2px solid',
-              borderColor: '#007867',
-              borderRadius: 1,
-              p: 0.2,
-            }}
+            sx={{display:'flex', alignItems:'center'}}
           >
-            <DatePicker views={['month', 'year']}  value={date} onChange={(e) => setDate(e)}/>
+            <Typography mr={2}>Forecast: </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                mr: 4,
+                border: '2px solid',
+                borderColor: '#007867',
+                borderRadius: 1,
+                p: 0.2,
+              }}
+            >
+              <DatePicker views={['month', 'year']}  value={date} onChange={(e) => setDate(e)}/>
+            </Box>
           </Box>
+          <Button
+            variant='contained' color='primary' sx={{mr: 3}}
+            onClick={addEditableRow}
+          >
+            Add
+          </Button>
         </Box>
 
         <TableContainer>
@@ -181,7 +235,7 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
                     {item}
                   </TableCell>
                 ))}
-                <TableCell rowSpan={2}>UserInfo</TableCell>
+                <TableCell rowSpan={2}>Adjustment</TableCell>
                 <TableCell rowSpan={2}>Forecast</TableCell>
               </TableRow>
               <TableRow>
@@ -206,11 +260,64 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult}) => 
                     </React.Fragment>
                   ))}
                   <TableCell>
-                    <TextField value= {item.userInfo} size='small' sx={{maxWidth:65}} type='number' onChange={(e) => changeUserInfo(e.target.value, item.RevenueExpenseId)}/>
+                    <TextField 
+                      type='number'
+                      value= {item.userInfo} 
+                      size='small' sx={{maxWidth:65}}  
+                      onChange={(e) => changeUserInfo(e.target.value, item.RevenueExpenseId)}
+                    />
                   </TableCell>
                   <TableCell>{item.result}</TableCell>
                 </TableRow>
               ))}
+              {newRow && (
+                <TableRow sx={{textAlign: 'center'}}>
+                  <TableCell sx={{textAlign: 'center'}}>
+                    <TextField
+                      value={newRow.AccountId}
+                      onChange={(e) => handleInputChange('AccountId', e.target.value)}
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell sx={{textAlign: 'center'}}>
+                    <TextField
+                      value={newRow.RevenueExpenseId}
+                      onChange={(e) => handleInputChange('RevenueExpenseId', e.target.value)}
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell sx={{textAlign: 'center'}}>
+                    <TextField
+                      value={newRow.Description}
+                      onChange={(e) => handleInputChange('Description', e.target.value)}
+                      size="small"
+                    />
+                  </TableCell>
+                  {newRow.data.map((data, index) => (
+                    <React.Fragment key={index}>
+                      <TableCell sx={{textAlign: 'center'}}>
+                        0
+                      </TableCell>
+                      <TableCell sx={{textAlign: 'center'}}>
+                        0
+                      </TableCell>
+                    </React.Fragment>
+                  ))}
+                  <TableCell sx={{textAlign: 'center'}}>
+                    <TextField
+                      type='number'
+                      value={newRow.userInfo}
+                      sx={{maxWidth:65}}
+                      onChange={(e) => handleInputChange('userInfo', e.target.value)}
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell sx={{textAlign: 'center'}}>
+                    <Button onClick={saveNewRow}>Save</Button>
+                    <Button onClick={cancelNewRow}>Cancel</Button>
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

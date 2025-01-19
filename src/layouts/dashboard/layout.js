@@ -75,7 +75,7 @@ export default function DashboardLayout({ children }) {
         <Header onOpenNav={nav.onTrue} />
 
         {lgUp ? renderHorizontal : renderNavVertical}
-
+        
         <Main>{children}</Main>
       </>
     );
@@ -93,7 +93,6 @@ export default function DashboardLayout({ children }) {
           }}
         >
           {lgUp ? renderNavMini : renderNavVertical}
-
           <Main>{children}</Main>
           {renderModal}
         </Box>
@@ -112,7 +111,6 @@ export default function DashboardLayout({ children }) {
         }}
       >
         {renderNavVertical}
-
         <Main>{children}</Main>
         {renderModal}
       </Box>

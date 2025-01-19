@@ -2,8 +2,11 @@ import axios, { endpoints } from 'src/utils/axios';
 
 export const GetRevenueByMonth = async (data) => {
   try {
-    const response = await axios.post(endpoints.revenue.getRevenueByMonth, data)
-    return response.data;
+    let result = {type: '', data: {}}
+    await axios.post(endpoints.revenue.getRevenueByMonth, data)
+            .then(res => {result = {type: 'success', data: res.data}})
+            .catch(err => {result = {type: 'error', data: err}})
+    return result;
   } catch (error) {
     console.error(
       'Error fetching Revenue By Month:', error
@@ -14,8 +17,11 @@ export const GetRevenueByMonth = async (data) => {
 
 export const GetRevenue = async (data) => {
   try {
-    const response = await axios.post(endpoints.revenue.getRevenue, data)
-    return response.data.data.data;
+    let result = {type: '', data: {}}
+    await axios.post(endpoints.revenue.getRevenue, data)
+            .then(res => {result = {type: 'success', data: res.data.data.data}})
+            .catch(err => {result = {type: 'error', data: err}})
+    return result;
   } catch (error) {
     console.error(
       'Error fetching Revenue:',error
@@ -26,8 +32,11 @@ export const GetRevenue = async (data) => {
 
 export const GetCOA = async (data) => {
   try {
-    const response = await axios.post(endpoints.coa.getCOA, data)
-    return response.data.data.data;
+    let result = {type: '', data: {}}
+    await axios.post(endpoints.coa.getCOA, data)
+                      .then(res => {result = {type: 'success', data: res.data.data.data}})
+                      .catch(err => {result = {type: 'error', data: err}})
+    return result
   } catch (error) {
     console.error(
       'Error fetching Revenue:',error
@@ -38,8 +47,11 @@ export const GetCOA = async (data) => {
 
 export const CreateRevenue = async (data) => {
   try {
-    const response = await axios.post(endpoints.revenue.create, data)
-    return response.data.data.data;
+    let result = {type: '', data: {}}
+    await axios.post(endpoints.revenue.create, data)
+                      .then(res => {result = {type: 'success', data: res.data.data.data}})
+                      .catch(err => {result = {type: 'error', data: err}})
+    return result;
   } catch (error) {
     console.log("Error Create Revenue", error);
     throw error;
@@ -48,8 +60,11 @@ export const CreateRevenue = async (data) => {
 
 export const CreateCOA = async (data) => {
   try {
-    const response = await axios.post(endpoints.coa.create, data)
-    return response.data.data.data;
+    let result = {type: '', data: {}}
+    await axios.post(endpoints.coa.create, data)
+            .then(res => {result = {type: 'success', data: res.data.data.data}})
+            .catch(err => {result = {type: 'error', data: err}})
+    return result;
   } catch (error) {
     console.log("Error Create COA", error);
     return [];

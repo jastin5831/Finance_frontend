@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {toast } from 'react-toastify';
 import { GetCOA, GetRevenueByMonth } from 'src/api/revenue';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useSettingsContext } from 'src/components/settings';
@@ -65,7 +66,7 @@ const checkData = (totalResult, temp, item, coaData) => {
         temp.salaries += item[2];
         totalResult = setTotalResult(false);
         break;
-      case 'Taxes':
+      case 'Tax':
         temp.taxes += item[2];
         totalResult = setTotalResult(false);
         break;
@@ -198,11 +199,17 @@ export default function Dashboard() {
             userId: user._id,
             date: dateRange
           }
-          const dataResult = await GetRevenueByMonth(data);
-          dataResult.data.reverse()
-          const summarize = handleValue(dataResult.data, coa);
-          setResult(summarize)
-          setError(null);  
+          const response = await GetRevenueByMonth(data);
+          if(response.type === "success") {
+            toast.success("Revenue Successfully Upload!",{theme: "colored"});
+            const dataResult = response.data;
+            dataResult.data.sort((a, b) => a.data.dateFlag - b.data.dateFlag);
+            const summarize = handleValue(dataResult.data, coa);
+            setResult(summarize)
+            setError(null);  
+          }else {
+            toast.error('Revenue Upload Error', {theme: "colored"})
+          }
         }
       } catch (err) {
         setError(err);
@@ -215,7 +222,12 @@ export default function Dashboard() {
     const fetchCOA = async () => {
       const data = { userId: user._id };
       const response = await GetCOA(data);
-      setCoa(response);
+      if(response.type === "success") {
+        toast.success("COA Successfully Upload!",{theme: "colored"});
+        setCoa(response.data);
+      }else {
+        toast.error('COA Upload Error', {theme: "colored"})
+      }
     };
     fetchCOA();
   }, [user._id]);
@@ -223,7 +235,7 @@ export default function Dashboard() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-        <Typography variant="h4"> Welcome to Dashboard 👋</Typography>
+        <Typography variant="h4"> Welcome to Dashboard</Typography>
         <Box
           sx={{
             display: 'flex',

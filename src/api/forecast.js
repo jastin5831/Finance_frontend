@@ -4,6 +4,7 @@ export const CreateForecast = async (forecast, coaResult) => {
   const tempData = []
   forecast.data.map(item => {
       const tempItem = [...item]
+      tempItem[1] = tempItem[3]
       tempItem[3] = tempItem[2]
       tempItem[4] = 0
       coaResult.map(coa => {
@@ -14,11 +15,12 @@ export const CreateForecast = async (forecast, coaResult) => {
       return true;
   })
   forecast.data = tempData;
-  console.log('forecast',forecast)
   try {
+    let result = ''
     await axios.post(endpoints.forecast.create, forecast)
-            .then(res => console.log('response', res.data))
-            .catch(err => console.log('Error:', err))
+            .then(res => {result = 'success'})
+            .catch(err => {result = 'error'})
+    return result;
   } catch (error) {
     console.log("Error Create Forecast", error);
     throw error;
@@ -33,9 +35,11 @@ export const UpdateForecast = async (forecast) => {
   });
   tempResult.data = tempData;
   try {
+    let result = ''
     await axios.post(endpoints.forecast.update, tempResult)
-            .then(res => console.log('response',res.data))
-            .catch(err => console.log('error',err))
+            .then(res => {result = 'success'})
+            .catch(err => {result = 'error'})
+    return result
   } catch (error) {
     console.error(
       'Error fetching Revenue By Month:', error
@@ -46,8 +50,11 @@ export const UpdateForecast = async (forecast) => {
 
 export const GetForecast = async (data) => {
   try {
-    const response = await axios.post(endpoints.forecast.get, data)
-    return response.data;
+    let result = {type:'', data:{}}
+    await axios.post(endpoints.forecast.get, data)
+                            .then(res => {result = {type:'success', data:res.data}})
+                            .catch(err => {result = {type: 'error', data:err}})
+    return result;
   } catch (error) {
     console.error(
       'Error fetching Revenue By Month:', error
