@@ -8,6 +8,7 @@ import {LoadingButton} from '@mui/lab';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { parseInt } from 'lodash';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import {toast } from 'react-toastify';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useEffect, useState } from 'react';
 import { useSettingsContext } from 'src/components/settings';
@@ -20,7 +21,7 @@ import ForecastTable from './ForecastTable';
 const monthArray = [
   'January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
 ]
-
+  
 const fillMissingDates = (data, dateRange) => {
   const tempData = JSON.parse(JSON.stringify(data));
   for (let i = 0; i < tempData.length; i+=1) {
@@ -102,6 +103,7 @@ export default function DataForecast() {
   }
 
   const handleDateChange = (date, type) => {
+    if (!date) return; 
     let dateResult;
     if(type) {
       dateResult = {...selectedDate, from: date}
@@ -122,10 +124,15 @@ export default function DataForecast() {
       data: result
     }
     if(!data.data || data.data.length === 0) {
-      console.log("Monthly Result data required!")
+      toast.error('Monthly Result data required!',{theme: "colored"})
       setUploadState(false)
     } else {
-      await UpdateForecast(data);
+      const response = await UpdateForecast(data);
+      if(response === 'success') {
+        toast.success('Forecast successfully Uploaded!', {theme:'colored'})
+      } else {
+        toast.error('Update Forecast Error',{theme: "colored"})
+      }
       setUploadState(false)
     }
   }
@@ -141,8 +148,13 @@ export default function DataForecast() {
             userId: user._id,
             date: dateRange
           }
-          const dataResult = await GetForecast(data);
-          const tempResult = handleData(dataResult, dateRange);
+          const response = await GetForecast(data);
+          if(response.type === 'success') {
+            toast.success('History successfully loaded!', {theme:'colored'})
+          } else {
+            toast.error('Update Forecast Error',{theme: "colored"})
+          }
+          const tempResult = handleData(response.data, dateRange);
           setResult(tempResult)
           headerSet(tempResult[0].data)
         }
@@ -170,14 +182,14 @@ export default function DataForecast() {
           }}
         >
           <DatePicker 
-            label={selectedDate.from === "" ? 'From' : ''} 
+            label={selectedDate.from === null ? 'From' : ''} 
             views={['month', 'year']} 
             value={selectedDate.from}
             onChange={(e) => handleDateChange(e, true)}
           />
           <Box sx={{ mx: 1 }}>-</Box>
           <DatePicker 
-            label={selectedDate.to === "" ? 'To' : ''}  
+            label={selectedDate.to === null ? 'To' : ''}  
             views={['month', 'year']} 
             value={selectedDate.to}
             onChange={(e) => handleDateChange(e, false)}
@@ -187,7 +199,7 @@ export default function DataForecast() {
       <ForecastTable 
         currentResult={result} month={header} 
         date={currentDate} 
-        setDate = {(date) => setCurrentDate(date)} 
+        setDate = {(date) => setCurrentDate(date)}
         changeResult = {(data) => setResult(data)}
       />
       <LoadingButton
