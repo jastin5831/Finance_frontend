@@ -129,7 +129,7 @@ export default function JwtRegisterView() {
 
         <LoadingButton
           fullWidth
-          color="inherit"
+          color="primary"
           variant='contained'
           size="large"
           type="submit"
