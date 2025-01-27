@@ -41,7 +41,7 @@ export function useNavData() {
   const data = useMemo(
     () => [
       {
-        subheader: 'overview v5.4.0',
+        subheader: 'overview',
         items: [
           { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
           { title: 'Upload Result', path: paths.dashboard.two, icon: ICONS.file },
@@ -52,21 +52,22 @@ export function useNavData() {
           },
         ],
       },
-      // {
-      //   subheader: 'management',
-      //   items: [
-      //     {
-      //       title: 'user',
-      //       path: paths.dashboard.group.root,
-      //       icon: ICONS.user,
-      //       children: [
-      //         { title: 'four', path: paths.dashboard.group.root },
-      //         { title: 'five', path: paths.dashboard.group.five },
-      //         { title: 'six', path: paths.dashboard.group.six },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        subheader: 'Support',
+        items: [
+          {
+            title: 'Security',
+            path: paths.dashboard.group.root,
+            icon: ICONS.lock,
+            children: [
+              { title: 'role', path: paths.dashboard.group.root },
+              { title: 'how to use', path: paths.dashboard.group.five },
+            ],
+          },
+          { title: 'FAQs', path: paths.dashboard.faqs, icon: ICONS.booking},
+          { title: 'Contact Us', path: paths.dashboard.contact, icon: ICONS.mail},
+        ],
+      },
     ],
     []
   );

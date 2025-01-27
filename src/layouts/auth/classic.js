@@ -51,7 +51,7 @@ export default function AuthClassicLayout({ children, image, title }) {
       sx={{
         width: 1,
         mx: 'auto',
-        maxWidth: 480,
+        maxWidth: 650,
         px: { xs: 2, md: 8 },
         py: { xs: 15, md: 30 },
       }}
