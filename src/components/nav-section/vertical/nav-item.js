@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
-// @mui
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
 import ListItemText from '@mui/material/ListItemText';
-// routes
-import { RouterLink } from 'src/routes/components';
-//
-import Iconify from '../../iconify';
-//
-import { StyledItem, StyledIcon, StyledDotIcon } from './styles';
 
-// ----------------------------------------------------------------------
+import { RouterLink } from 'src/routes/components';
+import Iconify from '../../iconify';
+import { StyledItem, StyledIcon } from './styles';
+
 
 export default function NavItem({ item, open, depth, active, config, externalLink, ...other }) {
   const { title, path, icon, info, children, disabled, caption, roles } = item;
@@ -28,12 +25,14 @@ export default function NavItem({ item, open, depth, active, config, externalLin
       {...other}
     >
       <>
-        {icon && <StyledIcon size={config.iconSize}>{icon}</StyledIcon>}
+        {icon && !subItem && <StyledIcon size={config.iconSize}>{icon}</StyledIcon>}
 
         {subItem && (
-          <StyledIcon size={config.iconSize}>
-            <StyledDotIcon active={active} />
-          </StyledIcon>
+          <Box ml={2}>
+            <StyledIcon size={18}>
+              {icon}
+            </StyledIcon>
+          </Box>
         )}
       </>
 

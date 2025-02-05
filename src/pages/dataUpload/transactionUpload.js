@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import Detail from 'src/sections/details/view';
+import TransactionUpload from 'src/sections/transactionUpload/view';
 // sections
 
 // ----------------------------------------------------------------------
@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Details</title>
+        <title> Dashboard: TransactionUpload</title>
       </Helmet>
 
-      <Detail />
+      <TransactionUpload />
     </>
   );
 }

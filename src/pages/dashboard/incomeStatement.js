@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import UploadResult from 'src/sections/revenue/view';
+import Dashboard from 'src/sections/dashboard/view';
 // sections
 
 // ----------------------------------------------------------------------
@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: UploadResult</title>
+        <title> IncomeStatement</title>
       </Helmet>
-
-      <UploadResult />
+ 
+      <Dashboard />
     </>
   );
 }

@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }) {
   const [openModal, setOpenModal] = useState(false)
 
   const handleModal = (value) => setOpenModal(value);
-  console.log('theme', settings.themeLayout)
+
   const modalStyle = {
     position: 'absolute',
     top: '50%',
