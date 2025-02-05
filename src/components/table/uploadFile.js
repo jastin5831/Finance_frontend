@@ -42,7 +42,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
   const [orderBy, setOrderBy] = useState('');
   const [orderDirection, setOrderDirection] = useState('asc');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
   
   const formatRow = (row) => {
     const tempData = [];
@@ -215,8 +215,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
                     <TableCell
                       key={cellIndex}
                       style={{
-                        border: 'none',
-                        padding: '8px',
+                        padding: '20px',
                         textAlign: 'center',
                       }}
                     >
@@ -230,7 +229,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[7, 10, 20]}
           component="div"
           count={filteredData.length}
           rowsPerPage={rowsPerPage}
