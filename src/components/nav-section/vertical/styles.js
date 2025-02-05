@@ -69,25 +69,11 @@ export const StyledIcon = styled(ListItemIcon)(({ size }) => ({
   justifyContent: 'center',
 }));
 
-export const StyledDotIcon = styled('span')(({ active, theme }) => ({
-  width: 4,
-  height: 4,
-  borderRadius: '50%',
-  backgroundColor: theme.palette.text.disabled,
-  transition: theme.transitions.create(['transform'], {
-    duration: theme.transitions.duration.shorter,
-  }),
-  ...(active && {
-    transform: 'scale(2)',
-    backgroundColor: theme.palette.primary.main,
-  }),
-}));
-
 // ----------------------------------------------------------------------
 
 export const StyledSubheader = styled(ListSubheader)(({ config, theme }) => ({
   ...theme.typography.overline,
-  fontSize: 11,
+  fontSize: 14,
   cursor: 'pointer',
   display: 'inline-flex',
   padding: config.itemPadding,

@@ -18,15 +18,15 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    one: `${ROOTS.DASHBOARD}/one`,
-    two: `${ROOTS.DASHBOARD}/uploadResult`,
-    three: `${ROOTS.DASHBOARD}/dataForecast`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+    forecastRevnue: `${ROOTS.DASHBOARD}/forecastRevenue`,
+    coaUpload: `${ROOTS.DASHBOARD}/coaUpload`,
+    transactionUpload: `${ROOTS.DASHBOARD}/transactionUpload`,
+    admin: {
+      root: `${ROOTS.DASHBOARD}/admin`,
+      checkList: `${ROOTS.DASHBOARD}/admin/checkList`,
+      userManagement: `${ROOTS.DASHBOARD}/admin/userManagement`,
+      subscription: `${ROOTS.DASHBOARD}/admin/subscription`,
     },
-    faqs: `${ROOTS.DASHBOARD}/faqs`,
-    contact: `${ROOTS.DASHBOARD}/Contact`,
+    help: `${ROOTS.DASHBOARD}/help`
   },
 };

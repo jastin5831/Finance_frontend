@@ -15,13 +15,9 @@ export default function Router() {
       path: '/',
       element: <Navigate to={PATH_AFTER_LOGIN} replace />,
     },
-    // Auth routes
     ...authRoutes,
-    // Dashboard routes
     ...dashboardRoutes,
-    // Main routes
     ...mainRoutes,
-    // No match 404
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }

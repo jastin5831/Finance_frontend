@@ -1,71 +1,67 @@
 import { useMemo } from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AssuredWorkloadOutlinedIcon from '@mui/icons-material/AssuredWorkloadOutlined';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import MarkUnreadChatAltOutlinedIcon from '@mui/icons-material/MarkUnreadChatAltOutlined';
 import { paths } from 'src/routes/paths';
-import SvgColor from 'src/components/svg-color';
-
-// ----------------------------------------------------------------------
-
-const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-);
 
 const ICONS = {
-  job: icon('ic_job'),
-  blog: icon('ic_blog'),
-  chat: icon('ic_chat'),
-  mail: icon('ic_mail'),
-  user: icon('ic_user'),
-  file: icon('ic_file'),
-  lock: icon('ic_lock'),
-  tour: icon('ic_tour'),
-  order: icon('ic_order'),
-  label: icon('ic_label'),
-  blank: icon('ic_blank'),
-  kanban: icon('ic_kanban'),
-  folder: icon('ic_folder'),
-  banking: icon('ic_banking'),
-  booking: icon('ic_booking'),
-  invoice: icon('ic_invoice'),
-  product: icon('ic_product'),
-  calendar: icon('ic_calendar'),
-  disabled: icon('ic_disabled'),
-  external: icon('ic_external'),
-  menuItem: icon('ic_menu_item'),
-  ecommerce: icon('ic_ecommerce'),
-  analytics: icon('ic_analytics'),
-  dashboard: icon('ic_dashboard'),
+  dashboard: <DashboardIcon fontSize='large'/>,
+  forecastRevnue: <StackedBarChartIcon fontSize='large'/>,
+  coa: <AssuredWorkloadOutlinedIcon fontSize='large'/>,
+  transaction: <RequestQuoteIcon fontSize='large'/>,
+  admin: <AdminPanelSettingsIcon fontSize='large'/>,
+  checkList: <ChecklistIcon fontSize='medium'/>,
+  manageUser: <ManageAccountsIcon fontSize='medium'/>,
+  subscription: <SubscriptionsIcon fontSize='medium'/>,
+  help: <MarkUnreadChatAltOutlinedIcon fontSize='medium'/>
 };
-
-// ----------------------------------------------------------------------
 
 export function useNavData() {
   const data = useMemo(
     () => [
       {
-        subheader: 'overview',
+        subheader: 'Financial Statement',
         items: [
-          { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'Upload Result', path: paths.dashboard.two, icon: ICONS.file },
+          { title: 'Income Statement', path: paths.dashboard.root, icon: ICONS.dashboard },
+        ],
+      },
+      {
+        subheader: 'Budgeting & Forecasting',
+        items: [
           {
-            title: 'Data & Forecast',
-            path: paths.dashboard.three,
-            icon: ICONS.analytics,
+            title: 'Forecast Revenue',
+            path: paths.dashboard.forecastRevnue,
+            icon: ICONS.forecastRevnue,
           },
         ],
       },
       {
-        subheader: 'Support',
+        subheader: 'Data Upload',
+        items: [
+          { title: 'COA Upload', path: paths.dashboard.coaUpload, icon: ICONS.coa },
+          { title: 'Transaction Upload', path: paths.dashboard.transactionUpload, icon: ICONS.transaction },
+        ],
+      },
+      {
+        subheader: 'Security',
         items: [
           {
-            title: 'Security',
-            path: paths.dashboard.group.root,
-            icon: ICONS.lock,
+            title: 'Admin',
+            path: paths.dashboard.admin.root,
+            icon: ICONS.admin,
             children: [
-              { title: 'role', path: paths.dashboard.group.root },
-              { title: 'how to use', path: paths.dashboard.group.five },
+              { title: 'CheckList', path: paths.dashboard.admin.checkList, icon: ICONS.checkList },
+              { title: 'User Management', path: paths.dashboard.admin.userManagement, icon: ICONS.manageUser},
+              { title: 'Subscription', path: paths.dashboard.admin.subscription, icon: ICONS.subscription},
             ],
           },
-          { title: 'FAQs', path: paths.dashboard.faqs, icon: ICONS.booking},
-          { title: 'Contact Us', path: paths.dashboard.contact, icon: ICONS.mail},
+          { title: 'Help', path: paths.dashboard.help, icon: ICONS.help}
         ],
       },
     ],

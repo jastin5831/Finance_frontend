@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-// icons
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Icon } from '@iconify/react';
 // @mui
 import Box from '@mui/material/Box';

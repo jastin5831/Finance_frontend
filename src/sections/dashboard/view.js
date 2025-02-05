@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {toast } from 'react-toastify';
 import { GetCOA, GetRevenueByMonth } from 'src/api/revenue';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -235,7 +236,7 @@ export default function Dashboard() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-        <Typography variant="h4"> Welcome to Dashboard</Typography>
+        <Typography variant="h4">👋 Welcome to IncomeStatement</Typography>
         <Box
           sx={{
             display: 'flex',

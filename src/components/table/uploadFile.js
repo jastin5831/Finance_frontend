@@ -143,7 +143,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
         p: 2,
       }}>
         <Typography sx={{ fontWeight: '500', fontSize: '18px' }}>
-          {titleArray.length === 3 ? "Chart of Account" : "Monthly Result"} Table
+          {titleArray[2] === 'Roll UP' ? "Chart of Account" : "Monthly Result"} Table
         </Typography>
         <Box
           sx={{

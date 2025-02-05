@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 // components
-import { Box, Container, Divider, Typography} from '@mui/material';
+import { Box, Container, Typography} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -9,27 +9,24 @@ import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { CreateCOA, CreateRevenue, GetCOA, GetRevenue } from 'src/api/revenue';
+import {CreateRevenue, GetRevenue, GetCOA } from 'src/api/revenue';
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import { CreateForecast } from 'src/api/forecast';
-import UploadFile from './uploadFile';
+import UploadFile from 'src/components/table/uploadFile';
 import './style.css';
-// ----------------------------------------------------------------------
+
 const monthTitle = [
   "AccountID", "Revenue/Expense Description", "Amount($)", "Revenue/Expense ID"
 ]
-const COATitle = [
-  "AccountID", "Description", "Roll UP"
-]
-export default function UploadResult() {
+
+export default function TransactionUpload() {
   const settings = useSettingsContext();
   const {user} = useAuthContext();
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [result, setResult] = useState([]);
   const [COAResult, setCOAResult] = useState([]);
   const [uploadState, setUploadState] = useState(false);
-  const [uploadCOA, setUploadCOA] = useState(false);
 
   const handleDateChange = (date) => {
     setCurrentDate(date);
@@ -49,10 +46,6 @@ export default function UploadResult() {
     );
     
     setResult(aggregatedData)
-  }
-
-  const handleSetCOAResult = (value) => {
-    setCOAResult(value)
   }
 
   const onSubmit = async () => {
@@ -86,27 +79,6 @@ export default function UploadResult() {
     }
   }
 
-  const onCOASubmit = async () => {
-    setUploadCOA(true)
-    const data = {
-      userId: user._id,
-      data: COAResult
-    }
-    if(!data.data || data.data.length === 0) {
-      console.log("COA data required!")
-      setUploadCOA(false)
-    } else {
-      const response = await CreateCOA(data)
-      if(response.type === "success") {
-        toast.success('CoA Successfully Uploaded',{theme: "colored"})
-      }else {
-        toast.error('COA Upload Error',{theme: "colored"})
-      }
-      setCOAResult(response.data)
-      setUploadCOA(false)
-    }
-  }
-
   useEffect(()=>{
     const getRevenue = async () => {
       const saveDate = dayjs(currentDate).format('MMMM YYYY');
@@ -119,7 +91,6 @@ export default function UploadResult() {
         toast.error('Revenue Upload Error', {theme: "colored"})
       }
     }
-
     const getCOA = async () => {
       const data = {userId: user._id}
       const response = await GetCOA(data)
@@ -131,14 +102,14 @@ export default function UploadResult() {
       }
     }
 
-    getRevenue()
     getCOA()
+    getRevenue()
   },[currentDate, user._id])
   
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 2 }}>
-        <Typography variant="h4"> Upload Monthly Result </Typography>
+        <Typography variant="h4"> Upload Transactions </Typography>
         <Box
           sx={{
             display: 'flex',
@@ -166,22 +137,6 @@ export default function UploadResult() {
         startIcon={<CloudUploadIcon />}
       >
         Submit
-      </LoadingButton>
-
-      <Divider sx={{ borderStyle: 'dashed', mb:2 }} />
-
-      <Typography variant="h4" sx={{mb:2}}> Upload Chart of Account </Typography>
-      <UploadFile onSetResult={handleSetCOAResult} currentResult={COAResult} titleArray={COATitle}/>
-      <LoadingButton
-        component="label"
-        color="primary"
-        variant="contained"
-        onClick={onCOASubmit}
-        loading={uploadCOA}
-        sx = {{mt:2, mb:2}}
-        startIcon={<CloudUploadIcon />}
-      >
-        Submit COA
       </LoadingButton>
     </Container>
   );

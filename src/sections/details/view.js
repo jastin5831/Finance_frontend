@@ -12,7 +12,7 @@ import { useSettingsContext } from 'src/components/settings';
 import Iconify from 'src/components/iconify';
 import RevenueDetailTable from './RevenueDetailTable';
 
-import '../revenue/style.css';
+import '../transactionUpload/style.css';
 // eslint-disable-next-line import/order
 import { GetSubmissionDifference } from 'src/api/submission';
 // ----------------------------------------------------------------------
