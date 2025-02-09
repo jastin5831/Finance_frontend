@@ -45,15 +45,33 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
   const [rowsPerPage, setRowsPerPage] = useState(7);
   
   const formatRow = (row) => {
-    const tempData = [];
+    const ISData = [];
+    const BSData = [];
+
     row.map(item => {
       const tempItem = [...item];
       if(typeof(item[0]) !== 'string') tempItem[0] = tempItem[0].toString();
-      if(typeof(item[1]) !== 'string') tempItem[1] = tempItem[1].toString();
-      if(item[2] < 0) tempItem[2] =  Math.abs(tempItem[2])
-      tempData.push(tempItem);
+      // when transactin upload, item[1] is vendor/revenue Id field, item[2] is amount field
+      if(titleArray[2] !== 'Roll UP') {
+        if(item[1] && item[3]) {
+          if(typeof(item[1]) !== 'string') tempItem[1] = tempItem[1].toString();
+          if(typeof(item[3]) !== 'string') tempItem[3] = tempItem[3].toString();
+        } else {
+          tempItem[1] = '';
+          tempItem[3] = '';
+        }
+        if(item[2] < 0) tempItem[2] =  Math.abs(tempItem[2])
+      } 
+      // when transaction upload, item[1] may is undefined or exist. otherwise when coa upload item[1] always exist
+      // so, if item[1] doesn't exist, it is trnasaction upload and it's BS case. 
+      if(item[1]) {
+        ISData.push(tempItem);
+      } else {
+        BSData.push(tempItem);
+      }
       return true;
     })
+    const tempData = [...ISData, ...BSData]
     return tempData;
   }
 
@@ -229,7 +247,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[7, 10, 20]}
+          rowsPerPageOptions={[7, 15, 20]}
           component="div"
           count={filteredData.length}
           rowsPerPage={rowsPerPage}
