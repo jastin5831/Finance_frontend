@@ -27,8 +27,6 @@ export const fetcher = async (args) => {
 
 export const endpoints = {
   chat: '/api/chat',
-  kanban: '/api/kanban',
-  calendar: '/api/calendar',
   auth: {
     me: '/api/user/profile',
     login: '/api/auth/sign-in',
@@ -44,6 +42,11 @@ export const endpoints = {
     create: '/api/revenue/create',
     getRevenue: '/api/revenue/getRevenue',
     getRevenueByMonth: '/api/revenue/getRevenueByMonth',
+  },
+  balanceSheet: {
+    create: '/api/balanceSheet/create',
+    getBalanceSheet: '/api/balanceSheet/getBalanceSheet',
+    getBalanceSheetByMonth:'/api/balanceSheet/getBalanceSheetByMonth',
   },
   coa: {
     create: '/api/coa/create',
