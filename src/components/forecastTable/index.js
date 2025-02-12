@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Box,
     Card,
@@ -14,17 +14,13 @@ import ForecastContainer from './container';
 const ForecastTable = ({ currentResult, month, date, setDate, changeResult, handleDateChange, selectedDate}) => {
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [tempQuery, setTempQuery] = useState('');
+  const inputRef = useRef(null);
   const [orderBy, setOrderBy] = useState('');
   const [orderDirection, setOrderDirection] = useState('asc');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const header = ['AccountID', 'RevenueExpenseID', 'Description'];
   const [newRow, setNewRow] = useState(null);
-
-  const handleSearchChange = (event) => {
-    setTempQuery(event.target.value);
-  };
 
   const handleRequestSort = (column) => {
     const isAsc = orderBy === column && orderDirection === 'asc';
@@ -42,7 +38,7 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult, hand
   };
 
   const handleSearch = () => {
-    setSearchQuery(tempQuery);
+    setSearchQuery(inputRef.current.value);
   }
 
   const addEditableRow = () => {
@@ -147,15 +143,14 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult, hand
         p: 2,
       }}>
         <ForecastHeader 
-            tempQuery={tempQuery} date={date} setDate={setDate}
-            handleSearchChange={handleSearchChange} handleSearch={handleSearch}
-            selectedDate={selectedDate} handleDateChange={handleDateChange}
-            addEditableRow={addEditableRow} 
+          inputRef={inputRef} date={date} setDate={setDate}
+          handleSearch={handleSearch} addEditableRow={addEditableRow}
+          selectedDate={selectedDate} handleDateChange={handleDateChange}
         />
         <ForecastContainer
-            header={header} month={month} paginatedData={paginatedData} newRow={newRow}
-            handleRequestSort={handleRequestSort} orderDirection={orderDirection} changeUserInfo={changeUserInfo}
-            handleInputChange={handleInputChange} saveNewRow={saveNewRow} cancelNewRow={cancelNewRow} orderBy={orderBy}
+          header={header} month={month} paginatedData={paginatedData} newRow={newRow}
+          handleRequestSort={handleRequestSort} orderDirection={orderDirection} changeUserInfo={changeUserInfo}
+          handleInputChange={handleInputChange} saveNewRow={saveNewRow} cancelNewRow={cancelNewRow} orderBy={orderBy}
         />
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}

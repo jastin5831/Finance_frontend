@@ -9,7 +9,7 @@ import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {GetRevenue, GetCOA, GetBalanceSheet } from 'src/api/revenue';
+import {GetRevenue, GetCOA, GetBalanceSheet } from 'src/api/transaction';
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import UploadFile from 'src/components/table/uploadFile';

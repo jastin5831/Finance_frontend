@@ -6,7 +6,7 @@ import {toast } from 'react-toastify';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { CreateCOA, GetCOA } from 'src/api/revenue';
+import { CreateCOA, GetCOA } from 'src/api/transaction';
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import UploadFile from 'src/components/table/uploadFile';

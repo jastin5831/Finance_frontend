@@ -15,6 +15,7 @@ import { useAuthContext } from 'src/auth/hooks';
 // eslint-disable-next-line import/order
 import { GetForecast, UpdateForecast } from 'src/api/forecast';
 import ForecastTable from 'src/components/forecastTable';
+import BalanceSheetAnalysis from 'src/components/balancesheet';
 import SwitchButton from './switch';
 import { handleData } from './func';
 
@@ -124,8 +125,7 @@ export default function DataForecast() {
             changeResult = {(data) => setResult(data)}
           />
           :
-          <>BalanceSheet</>
-
+          <BalanceSheetAnalysis />
         }
       </Box>
       <Box>
