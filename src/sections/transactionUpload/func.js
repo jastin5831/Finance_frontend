@@ -1,7 +1,7 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {toast } from 'react-toastify'; 
-import {CreateRevenue, CreateBalanceSheet } from 'src/api/revenue';
+import {CreateRevenue, CreateBalanceSheet } from 'src/api/transaction';
 import { CreateForecast } from 'src/api/forecast';
 
 export const devide = (value) => {

@@ -47,8 +47,10 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
   const formatRow = (row) => {
     const ISData = [];
     const BSData = [];
-
-    row.map(item => {
+    // filter empty row
+    const filteredRow = row.filter(item => item.length !== 0)
+    // format row
+    filteredRow.map(item => {
       const tempItem = [...item];
       if(typeof(item[0]) !== 'string') tempItem[0] = tempItem[0].toString();
       // when transactin upload, item[1] is vendor/revenue Id field, item[2] is amount field

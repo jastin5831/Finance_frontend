@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 const ForecastContainer = 
     ({
-        header, month, paginatedData, newRow,
+        header=[], month=[], paginatedData=[], newRow,
         handleRequestSort, orderDirection, changeUserInfo,
         handleInputChange, saveNewRow, cancelNewRow, orderBy
     }) => (

@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {toast } from 'react-toastify';
-import { GetCOA, GetRevenueByMonth } from 'src/api/revenue';
+import { GetCOA, GetRevenueByMonth } from 'src/api/transaction';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useSettingsContext } from 'src/components/settings';
 import { useAuthContext } from 'src/auth/hooks';

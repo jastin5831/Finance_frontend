@@ -13,9 +13,8 @@ import PropTypes from 'prop-types';
 
 const ForecastHeader = 
     ({
-      tempQuery, date,setDate, selectedDate,
-      handleDateChange, addEditableRow,
-      handleSearchChange,handleSearch,
+      inputRef, date,setDate, selectedDate,
+      handleDateChange, addEditableRow,handleSearch,
     }) => 
     (
         <Box
@@ -30,8 +29,7 @@ const ForecastHeader =
             <TextField
                 variant="outlined"
                 size="small"
-                value={tempQuery}
-                onChange={handleSearchChange}
+                inputRef={inputRef}
                 placeholder="Search by AccountID"
                 InputProps={{
                     endAdornment: (
@@ -103,13 +101,12 @@ const ForecastHeader =
     )
 
 ForecastHeader.propTypes = {
-  tempQuery: PropTypes.string,
+  inputRef: PropTypes.object,
   date: PropTypes.object,
   selectedDate: PropTypes.object,
   setDate: PropTypes.func,
   addEditableRow: PropTypes.func,
   handleDateChange: PropTypes.func,
-  handleSearchChange: PropTypes.func,
   handleSearch: PropTypes.func
 };
 
