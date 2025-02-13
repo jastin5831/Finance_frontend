@@ -6,13 +6,13 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-
+import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 
 const BalanceSheetHeader = ({
-  inputRef, selectedDate, handleDateChange,handleSearch,
+  inputRef, selectedDate, handleDateChange,handleSearch,setExportData
 }) => (
   <Box
     sx={{
@@ -69,6 +69,12 @@ const BalanceSheetHeader = ({
         onChange={(e) => handleDateChange(e, false)}
       />
     </Box>
+      <Button
+        variant='contained' color='primary' sx={{mr: 3}}
+        onClick={() => setExportData(true)}
+      >
+        Export
+      </Button>
   </Box>
 )
 
@@ -76,7 +82,8 @@ BalanceSheetHeader.propTypes = {
   inputRef:PropTypes.object,
   selectedDate: PropTypes.object,
   handleDateChange: PropTypes.func,
-  handleSearch: PropTypes.func
+  handleSearch: PropTypes.func,
+  setExportData: PropTypes.func
 };
 
 export default BalanceSheetHeader

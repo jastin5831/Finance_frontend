@@ -7,11 +7,15 @@ export const CreateForecast = async (forecast, coaResult) => {
       tempItem[1] = tempItem[3]
       tempItem[3] = tempItem[2]
       tempItem[4] = 0
+      let flag = false;
       coaResult.map(coa => {
-          if(coa[0].toString() === tempItem[0]) tempItem[2] = coa[2]; 
+          if(coa[0].toString() === tempItem[0]) {
+            tempItem[2] = coa[2]; 
+            flag = true;
+          }
           return true;
       })
-      tempData.push(tempItem)
+      if(flag === true) tempData.push(tempItem)
       return true;
   })
   forecast.data = tempData;
@@ -52,8 +56,8 @@ export const GetForecast = async (data) => {
   try {
     let result = {type:'', data:{}}
     await axios.post(endpoints.forecast.get, data)
-                            .then(res => {result = {type:'success', data:res.data}})
-                            .catch(err => {result = {type: 'error', data:err}})
+            .then(res => {result = {type:'success', data:res.data}})
+            .catch(err => {result = {type: 'error', data:err}})
     return result;
   } catch (error) {
     console.error(
