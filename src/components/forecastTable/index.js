@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { parseInt } from 'lodash';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { toast } from 'react-toastify';
+import { exportToExcel } from 'src/utils/exportToExcel';
 import ForecastHeader from './header';
 import ForecastContainer from './container';
 
@@ -19,8 +20,9 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult, hand
   const [orderDirection, setOrderDirection] = useState('asc');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const header = ['AccountID', 'RevenueExpenseID', 'Description'];
   const [newRow, setNewRow] = useState(null);
+  const [exportData, setExportData] = useState(false);
+  const header = ['AccountID', 'RevenueExpenseID', 'Description'];
 
   const handleRequestSort = (column) => {
     const isAsc = orderBy === column && orderDirection === 'asc';
@@ -110,6 +112,17 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult, hand
     setTableData(currentResult)
   },[currentResult])
 
+  useEffect(() => {
+    if(exportData) {
+      if(tableData.length === 0 || month.length === 0 || date === null) {
+        toast.warn('Export data is missing',{theme:'colored'})
+      } else {
+        exportToExcel({ data: tableData, month, fileName: `forecast ${date}`, type:'forecast' });
+      }
+      setExportData(false);
+    }
+  },[exportData, tableData, date, month])
+
   const changeUserInfo = (value, id) => {
     const tempData = tableData.map(item => {
       let realValue = 0
@@ -143,9 +156,10 @@ const ForecastTable = ({ currentResult, month, date, setDate, changeResult, hand
         p: 2,
       }}>
         <ForecastHeader 
-          inputRef={inputRef} date={date} setDate={setDate}
+          inputRef={inputRef} date={date} setDate={setDate} 
           handleSearch={handleSearch} addEditableRow={addEditableRow}
           selectedDate={selectedDate} handleDateChange={handleDateChange}
+          setExportData={setExportData} 
         />
         <ForecastContainer
           header={header} month={month} paginatedData={paginatedData} newRow={newRow}

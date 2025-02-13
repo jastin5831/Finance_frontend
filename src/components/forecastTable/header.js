@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 const ForecastHeader = 
     ({
-      inputRef, date,setDate, selectedDate,
+      inputRef, date,setDate, selectedDate, setExportData,
       handleDateChange, addEditableRow,handleSearch,
     }) => 
     (
@@ -93,6 +93,12 @@ const ForecastHeader =
             </Box>
             <Button
                 variant='contained' color='primary' sx={{mr: 3}}
+                onClick={() => setExportData(true)}
+            >
+                Export
+            </Button>
+            <Button
+                variant='contained' color='primary' sx={{mr: 3}}
                 onClick={addEditableRow}
             >
                 Add
@@ -101,6 +107,7 @@ const ForecastHeader =
     )
 
 ForecastHeader.propTypes = {
+  setExportData: PropTypes.func,
   inputRef: PropTypes.object,
   date: PropTypes.object,
   selectedDate: PropTypes.object,

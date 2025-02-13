@@ -5,6 +5,7 @@ import { Box, Card, TablePagination} from '@mui/material'
 import {toast } from 'react-toastify';
 import { useAuthContext } from 'src/auth/hooks';
 import { GetBalanceSheetByMonth } from 'src/api/transaction';
+import { exportToExcel } from 'src/utils/exportToExcel';
 import BalanceSheetHeader from './header'
 import BalanceSheetContainer from './container'
 import { handleData } from './func';
@@ -22,6 +23,7 @@ const BalaceSheetAnalysis = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedDate, setSelectedDate] = useState({from:null, to:null});
+  const [exportData, setExportData] = useState(false);
   const [months, setMonths] = useState([])
   const {user} = useAuthContext()  
   
@@ -126,6 +128,18 @@ const BalaceSheetAnalysis = () => {
     };
     fetchBalanceSheet();
   }, [selectedDate, user._id]);
+
+  useEffect(() => {
+    if(exportData) {
+      if(tableData.length === 0 || months.length === 0) {
+        toast.warn('Export data is missing',{theme:'colored'})
+      } else {
+        exportToExcel({ data: tableData, month: months, fileName: `balancesheet ${selectedDate.from} - ${selectedDate.to}`, type:'balancesheet' });
+      }
+      setExportData(false);
+    }
+  },[exportData, tableData, selectedDate, months])
+
   return (
     <Box>
       <Card 
@@ -133,6 +147,7 @@ const BalaceSheetAnalysis = () => {
       >
         <BalanceSheetHeader
           handleSearch={handleSearch} inputRef={inputRef}
+          setExportData={setExportData} 
           selectedDate={selectedDate} handleDateChange={handleDateChange}
         />
         <BalanceSheetContainer
