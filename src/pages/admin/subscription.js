@@ -1,17 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import FiveView from 'src/sections/Security/help/view';
-
+import Subscription from 'src/sections/Security/Admin/subscription';
 // ----------------------------------------------------------------------
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title>Help</title>
+        <title> Subscription</title>
       </Helmet>
 
-      <FiveView />
+      <Subscription />
     </>
   );
 }

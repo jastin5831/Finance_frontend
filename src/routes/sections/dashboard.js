@@ -7,15 +7,14 @@ import DashboardLayout from 'src/layouts/dashboard';
 // components
 import { LoadingScreen } from 'src/components/loading-screen';
 
-// ----------------------------------------------------------------------
 
 const IndexPage = lazy(() => import('src/pages/dashboard/incomeStatement'));
 const CoaUpload = lazy(() => import('src/pages/dataUpload/coaUpload'));
 const TransactionUpload = lazy(() => import('src/pages/dataUpload/transactionUpload'));
 const DataForecast = lazy(() => import('src/pages/budgeting_forecasting/dataForecast'));
-const CheckList = lazy(() => import('src/pages/security/checkList'));
-const UserManagement = lazy(() => import('src/pages/security/userManagement'));
-const Subscription = lazy(() => import('src/pages/security/subscription'));
+const CheckList = lazy(() => import('src/pages/admin/checklist'));
+const UserManagement = lazy(() => import('src/pages/admin/userManagement'));
+const Subscription = lazy(() => import('src/pages/admin/subscription'));
 const Help = lazy(() => import('src/pages/security/help'));
  
 export const dashboardRoutes = [

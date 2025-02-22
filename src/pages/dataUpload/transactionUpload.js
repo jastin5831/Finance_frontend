@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import TransactionUpload from 'src/sections/transactionUpload/view';
+import TransactionUpload from 'src/sections/DataUpload/transactionUpload/view';
 // sections
 
 // ----------------------------------------------------------------------

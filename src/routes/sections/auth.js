@@ -7,13 +7,9 @@ import AuthClassicLayout from 'src/layouts/auth/classic';
 // components
 import { SplashScreen } from 'src/components/loading-screen';
 
-// ----------------------------------------------------------------------
-
-// JWT
 const JwtLoginPage = lazy(() => import('src/pages/auth/jwt/login'));
 const JwtRegisterPage = lazy(() => import('src/pages/auth/jwt/register'));
-
-// ----------------------------------------------------------------------
+const JWTLandingPage = lazy(() => import('src/pages/auth/landing'));
 
 const authJwt = {
   path: 'jwt',
@@ -25,6 +21,12 @@ const authJwt = {
     </GuestGuard>
   ),
   children: [
+    {
+      path: 'landing',
+      element: (
+        <JWTLandingPage />
+      )
+    },
     {
       path: 'login',
       element: (
