@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import CoaUpload from 'src/sections/coaUpload/view';
+import CoaUpload from 'src/sections/DataUpload/coaUpload/view';
 
 export default function Page() {
   return (

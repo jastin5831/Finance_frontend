@@ -47,7 +47,7 @@ const BalanceSheetContainer = ({
         ))}
       </TableBody>
     </Table>
-</TableContainer>
+  </TableContainer>
 )
 
 BalanceSheetContainer.propTypes = {

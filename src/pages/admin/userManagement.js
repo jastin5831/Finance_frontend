@@ -1,15 +1,15 @@
 import { Helmet } from 'react-helmet-async';
-import DataForecast from 'src/sections/Bugeting_Forecasting/forecast/view';
 // sections
+import UserManagement from 'src/sections/Security/Admin/userManagement';
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Details</title>
+        <title> UserManagement</title>
       </Helmet>
 
-      <DataForecast />
+      <UserManagement />
     </>
   );
 }
