@@ -30,8 +30,8 @@ export default function JwtLandingPage() {
             cursor: 'pointer', 
             transition: 'transform 0.3s ease, color 0.3s ease',
             '&:hover': {
-              transform: 'scale(1.1)',
-              color: 'secondary.main',
+              transform: 'scale(1.15)',
+              color: '#41c1af',
             }
           }} 
         >  
@@ -52,14 +52,14 @@ export default function JwtLandingPage() {
       {/* line chart and credit card */}
       <Box 
         sx={{ 
-          mt: 10, display: "flex", justifyContent: "center", 
+          mt: 10,  
           alignItems: "center", position: "relative", width: "100%" 
         }}
       >
         <Box 
           src={FlowChartImage2} alt="Line Chart" component="img"
           sx={{ 
-            borderRadius: "0.5rem", width:"110rem", height:"500px", 
+            borderRadius: "0.5rem", width:"90%", height:'600px', 
             position: "relative", zIndex: 1 
           }}
         />
@@ -122,7 +122,7 @@ export default function JwtLandingPage() {
           src={FlowChartImage1}
           alt="Flow Chart"
           sx={{ 
-            borderRadius: "0.5rem", width:"110rem", height:"500px", 
+            borderRadius: "0.5rem", width:"90%", height:"500px", 
             position: "relative", zIndex: 1 
           }}
         />
