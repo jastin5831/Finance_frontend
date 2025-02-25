@@ -12,7 +12,7 @@ import Chart, { useChart } from 'src/components/chart';
 
 const CHART_HEIGHT = 400;
 
-const LEGEND_HEIGHT = 72;
+const LEGEND_HEIGHT = 80;
 
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
@@ -26,7 +26,6 @@ const StyledChart = styled(Chart)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
 
 export default function AnalyticsCurrentVisits({ title, subheader, chart, ...other }) {
   const theme = useTheme();
