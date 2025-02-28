@@ -58,9 +58,9 @@ export function useNavData() {
             children: [
               { title: 'CheckList', path: paths.dashboard.admin.checkList, icon: ICONS.checkList },
               { title: 'User Management', path: paths.dashboard.admin.userManagement, icon: ICONS.manageUser},
-              { title: 'Subscription', path: paths.dashboard.admin.subscription, icon: ICONS.subscription},
             ],
           },
+          { title: 'Subscription', path: paths.dashboard.subscription, icon: ICONS.subscription},
           { title: 'Help', path: paths.dashboard.help, icon: ICONS.help}
         ],
       },

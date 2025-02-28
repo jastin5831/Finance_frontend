@@ -14,7 +14,7 @@ const TransactionUpload = lazy(() => import('src/pages/dataUpload/transactionUpl
 const DataForecast = lazy(() => import('src/pages/budgeting_forecasting/dataForecast'));
 const CheckList = lazy(() => import('src/pages/admin/checklist'));
 const UserManagement = lazy(() => import('src/pages/admin/userManagement'));
-const Subscription = lazy(() => import('src/pages/admin/subscription'));
+const Subscription = lazy(() => import('src/pages/security/subscription'));
 const Help = lazy(() => import('src/pages/security/help'));
  
 export const dashboardRoutes = [
@@ -39,9 +39,9 @@ export const dashboardRoutes = [
         children : [
           {path: 'checkList', element : <CheckList/>},
           {path: 'userManagement', element : <UserManagement/>},
-          {path: 'subscription', element : <Subscription/>},
         ]
       },
+      { path: 'subscription', element : <Subscription/>},
       { path: 'help', element: <Help /> },
     ],
   },

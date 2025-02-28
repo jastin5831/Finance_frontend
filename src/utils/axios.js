@@ -56,5 +56,10 @@ export const endpoints = {
     create: '/api/forecast/create',
     update: '/api/forecast/update',
     get: '/api/forecast/get',
+  },
+  subscription: {
+    create: 'api/subscription/create',
+    update: 'api/subscription/update',
+    get: 'api/subscription/get'
   }
 };

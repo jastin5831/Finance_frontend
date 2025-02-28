@@ -1,4 +1,4 @@
-import { Card, CardContent, Box, Typography } from "@mui/material";
+import { Card, CardContent, Box, Typography, useTheme} from "@mui/material";
 import PropTypes from 'prop-types';
 
 import CreditCardImage1 from "src/assets/landnig/card-visa.png";
@@ -12,11 +12,12 @@ import { useRouter } from "src/routes/hooks";
 export default function JwtLandingPage() {
   const router = useRouter();
   const returnTo = paths.auth.jwt.login;
+  const theme = useTheme()
   return (
     <Box 
       sx={{ 
         minHeight: "100vh", display: "flex", flexDirection: "column", 
-        minWidth:"100%", alignItems: "center", textAlign: "center", position: "relative" 
+        minWidth:"100%", alignItems: "center", textAlign: "center", position: "relative", 
       }}
     >
       <Box sx={{display:"flex", alignItems:'center', mt:'2%', width:'100%', justifyContent:'space-between'}}>
@@ -40,13 +41,24 @@ export default function JwtLandingPage() {
           </svg>
         </Box>
       </Box>
-      <Box sx={{display: "flex", flexDirection: "column",textAlign: "center", alignItems: "center"}}>
-        <Typography variant="h2" sx={{ mt: 10 }}>
-          Empower Your Business with Smart Financial Solutions
+      <Box 
+        sx={{ 
+          display: "flex", 
+          alignItems: "center", 
+          width: "100%", 
+          justifyContent: "space-between",
+          borderBottom: "1px solid white",  
+          pb: "10px"  
+        }}
+      />
+      <Box sx={{display: "flex", flexDirection: "column",textAlign: "center", alignItems: "center", mt: "5%", mb:"10%"}}>
+        <Typography component="pre" variant="h1" mt={10} padding={5}>
+          {`Empower Your Business 
+                                          with Smart Financial Solutions`}
         </Typography>
-        <Typography variant="h4" sx={{ mt: 4, maxWidth: "60rem" }}>
-          Our platform helps small and medium-sized businesses manage their finances with budgeting, forecasting, 
-                                         and automated transaction processing.
+        <Typography component="pre" variant="h3" sx={{ mt: 5, maxWidth: "60%" }}>
+          {`Our platform helps small and medium-sized businesses manage their finances with 
+              budgeting, forecasting, and automated transaction processing.`}
         </Typography>
       </Box>
       {/* line chart and credit card */}
@@ -81,9 +93,9 @@ export default function JwtLandingPage() {
       >
         <FeatureCard
           icon={
-            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 48 48">
-              <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1"/>
-              <circle cx="24" cy="24" r="12.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewBox="0 0 48 48" color={`${theme.palette.primary.main}`}>
+              <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+              <circle cx="24" cy="24" r="12.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
               <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M18.794 29.31a3.14 3.14 0 0 0 3.062 1.49h2.013a4.26 4.26 0 0 0 4.015-3.4h0a2.752 2.752 0 0 0-2.772-3.4h-2.224a2.752 2.752 0 0 1-2.772-3.4h0a4.26 4.26 0 0 1 4.015-3.4h2.013a3.14 3.14 0 0 1 3.062 1.49m-3.963-1.49l.311-1.7m-3.108 17l.311-1.7M24 36.5v8.999M13.194 17.716l-7.779-4.524m29.449 4.626l7.822-4.451" strokeWidth="1"/>
             </svg>}
           title="Budgeting&Forecasting"
@@ -91,7 +103,7 @@ export default function JwtLandingPage() {
         />
         <FeatureCard
           icon={
-            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewBox="0 0 24 24" color={`${theme.palette.primary.main}`}>
               <path fill="currentColor" d="m6 16.5l-3 2.94V11h3m5 3.66l-1.57-1.34L8 14.64V7h3m5 6l-3 3V3h3m2.81 9.81L17 11h5v5l-1.79-1.79L13 21.36l-3.47-3.02L5.75 22H3l6.47-6.34L13 18.64"/>
             </svg>
           }
@@ -100,7 +112,7 @@ export default function JwtLandingPage() {
         />
         <FeatureCard
           icon={
-            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 48 48">
+            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewBox="0 0 48 48" color={`${theme.palette.primary.main}`}>
               <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4.8">
                 <path d="M24.008 41L24 23m16.518 11.316A9.21 9.21 0 0 0 44 24c-1.213-3.83-4.93-5.929-8.947-5.925h-2.321a14.737 14.737 0 1 0-25.31 13.429"/>
                 <path d="M30.364 27.636L24 21.272l-6.364 6.364"/>

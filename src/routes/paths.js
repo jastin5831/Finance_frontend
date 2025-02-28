@@ -26,8 +26,8 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/admin`,
       checkList: `${ROOTS.DASHBOARD}/admin/checkList`,
       userManagement: `${ROOTS.DASHBOARD}/admin/userManagement`,
-      subscription: `${ROOTS.DASHBOARD}/admin/subscription`,
     },
+    subscription: `${ROOTS.DASHBOARD}/subscription`,
     help: `${ROOTS.DASHBOARD}/help`
   },
 };
