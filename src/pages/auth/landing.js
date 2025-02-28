@@ -7,7 +7,6 @@ import JwtLandingPage from 'src/sections/auth/landing';
 
 export default function LoginPage() {
   const theme = useTheme();
-
   return (
     <Stack
       flexGrow={1}
