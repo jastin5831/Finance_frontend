@@ -60,6 +60,7 @@ export const endpoints = {
   subscription: {
     create: 'api/subscription/create',
     update: 'api/subscription/update',
-    get: 'api/subscription/get'
+    get: 'api/subscription/get',
+    cancel: 'api/subscription/cancel'
   }
 };
