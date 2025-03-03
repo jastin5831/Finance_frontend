@@ -44,3 +44,18 @@ export const UpdateSubscription = async (id, gmail) => {
     throw error;
   }
 };
+
+export const CancelSubscription = async (gmail) => {
+  try {
+    let result = {type:'',data:{}};
+    await axios.post(endpoints.subscription.cancel, {email:gmail})
+            .then(res => {result = {type:'success', data:'price_123'}})
+            .catch(err => {result = {type:'error',data:err}})
+    return result
+  } catch (error) {
+    console.error(
+      'Error Create Subscription Per Month:', error
+    );
+    throw error;
+  }
+};

@@ -103,12 +103,7 @@ export default function JwtRegisterView() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-
-        {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
-        </Stack> */}
-
+        
         <RHFTextField name="name" label="Company Name" />
         <RHFTextField name="email" label="Email address" />
 

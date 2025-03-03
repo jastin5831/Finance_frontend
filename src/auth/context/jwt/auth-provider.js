@@ -39,6 +39,12 @@ const reducer = (state, action) => {
       user: action.payload,
     };
   }
+  if (action.type === "UPDATE") {
+    return {
+      ...state,
+      user: action.payload,
+    }
+  }
   if (action.type === 'LOGOUT') {
     return {
       ...state,
@@ -67,12 +73,18 @@ export function AuthProvider({ children }) {
 
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
-
         const response = await axios.get(endpoints.auth.me);
         const { user } = response.data.data;
+        const logData = {...user}
+        await axios.post(endpoints.subscription.get, {email: user.email})
+            .then(res => {
+              logData.role = res.data.plan ? res.data.plan : 'price_123';
+            })
+            .catch(err => {logData.role = 'price_123'})
+
         dispatch({
           type: 'INITIAL',
-          payload: user,
+          payload: logData,
         });
       } else {
         dispatch({
@@ -101,18 +113,24 @@ export function AuthProvider({ children }) {
       email,
       password,
     };
-
+     
     const response = await axios.post(endpoints.auth.login, data);
     const { accessToken, user } = response.data.data;
-
     setSession(accessToken);
+    
+    const logData = {...user}
+    await axios.post(endpoints.subscription.get, {email})
+            .then(res => {
+              logData.role = res.data.plan ? res.data.plan : 'price_123';
+            })
+            .catch(err => {console.log(err)})
+
     dispatch({
       type: 'LOGIN',
-      payload: user,
+      payload: logData,
     });
   }, []);
 
-  // REGISTER
   const register = useCallback(
     async (email, password, name) => {
       const data = {
@@ -123,25 +141,20 @@ export function AuthProvider({ children }) {
 
       try {
         const response = await axios.post(endpoints.auth.register, data);
-        const { accessToken, user } = response.data;
-
+        const { accessToken, user } = response.data.data;
+        const registerData = {...user}
         // Store the accessToken in sessionStorage
         sessionStorage.setItem(STORAGE_KEY, accessToken);
-
-        // Dispatch REGISTER action
+        registerData.role = 'price_123';
         dispatch({
           type: 'REGISTER',
-          payload: {
-            user,
-          },
+          payload: registerData
         });
-
-        await login(email, password); // Call login after successful registration
       } catch (error) {
         console.error('Registration error:', error);
       }
     },
-    [login]
+    []
   );
 
   // Update Profile
@@ -157,23 +170,31 @@ export function AuthProvider({ children }) {
       const response = await axios.post(endpoints.auth.update, data);
       const { accessToken, user } = response.data.data;
 
-      // Store the accessToken in sessionStorage
       sessionStorage.setItem(STORAGE_KEY, accessToken);
-      console.log('updated User:', user)
+      const updateData = {...user}
+      updateData.role = initialState.user.role;
       // Dispatch REGISTER action
       dispatch({
-        type: 'REGISTER',
-        payload: {
-          user,
-        },
+        type: 'UPDATE',
+        payload: updateData,
       });
-
-      await login(email, password); // Call login after successful registration
     } catch (error) {
       console.error('UpdateProfile error:', error);
     }
-  },[login])
+  },[])
   
+  const setRole = useCallback((role, user) => {
+    try {
+      const updateData = {...user}
+      updateData.role = role
+      dispatch({
+        type: 'UPDATE',
+        payload: updateData
+      })
+    } catch (error) {
+      console.log('setRoleErr:',error)
+    }
+  },[])
   // LOGOUT
   const logout = useCallback(async () => {
     setSession(null);
@@ -199,8 +220,9 @@ export function AuthProvider({ children }) {
       register,
       update,
       logout,
+      setRole,
     }),
-    [login, logout, register, update, userData, status]
+    [login, logout, register, update, setRole, userData, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;

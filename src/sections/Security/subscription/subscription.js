@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { alpha, useTheme } from '@mui/material/styles';
 import { Box, Typography, Button, Card, CardContent, Container } from "@mui/material";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -6,18 +6,18 @@ import {toast } from 'react-toastify';
 import { useSettingsContext } from 'src/components/settings';
 import { allFeatures, plans } from 'src/utils/variable';
 import { useAuthContext } from 'src/auth/hooks';
-import { CreateSubscription, UpdateSubscription, GetSubscription } from 'src/api/stripe';
+import { CancelSubscription, CreateSubscription, UpdateSubscription } from 'src/api/stripe';
 
 const Subscription = () => {
   const settings = useSettingsContext();
   const theme = useTheme()
-  const {user} = useAuthContext() 
-  const [currentPlan, setCurrentPlan] = useState('price_123');
+  const {user, setRole} = useAuthContext() 
   
   const handleSubscribe = async (priceId) => {
     // if plan equals Free,it need create subscription, or not, it need update 
-    if (currentPlan !== priceId) {
-      if(currentPlan === "price_123") {
+    console.log("priceId:", priceId, "userId", user.role)
+    if (user.role !== priceId) {
+      if(user.role === "price_123") {
         const response = await CreateSubscription(priceId, user.email);
         if(response.type === "success") {
           toast.success('go next step!', {theme: "colored"});
@@ -25,12 +25,19 @@ const Subscription = () => {
         }else {
           toast.warn('Create subscripton error!', {theme: "colored"})
         }
+      } else if(priceId === "price_123") {
+        const response = await CancelSubscription(user.email)
+        if(response.type === "success") {
+          toast.success("You successfully Canceled Subscription!", {theme:"colored"})
+          await setRole?.("price_123", user)          
+        } else {
+          toast.warn("Cancel Subscription error!",{theme:"colored"})
+        }
       } else {
         const response = await UpdateSubscription(priceId, user.email);
         if(response.type === "success") {
           toast.success("You successfully Upgraded Subscription!",{theme: "colored"});
-          console.log('priceId',response.data)
-          setCurrentPlan(response.data);
+          await setRole?.(response.data, user)          
         }else {
           toast.warn('Update subscripton error!', {theme: "colored"})
         }
@@ -40,19 +47,6 @@ const Subscription = () => {
     }
   };
   
-  useEffect(() => {
-    const fetchSubscription = async () => {
-      const response = await GetSubscription(user.email);
-      if(response.type === "success") {
-        toast.success("You have Subscription!",{theme: "colored"});
-        setCurrentPlan(response.data);
-      }else {
-        toast.warn('Please Choose Plan!', {theme: "colored"})
-      }
-    };
-    fetchSubscription();
-  },[user.email])
-
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box
@@ -70,8 +64,8 @@ const Subscription = () => {
                 key={plan.title} 
                 sx={{ 
                   p: 4, borderRadius: "1rem", textAlign: "center", boxShadow: 3, 
-                  bgcolor: currentPlan === plan.stripePriceId ? theme.palette.primary.dark : "background.paper",
-                  color: currentPlan === plan.stripePriceId ? theme.palette.primary.contrastText : "inherit"
+                  bgcolor: user.role === plan.stripePriceId ? theme.palette.primary.dark : "background.paper",
+                  color: user.role === plan.stripePriceId ? theme.palette.primary.contrastText : "inherit"
                 }}
               >
                 <CardContent>
@@ -83,7 +77,7 @@ const Subscription = () => {
                         <Typography sx={{ mb: 1 }} variant='h6'>{item}</Typography>
                         {plan.features.includes(item) ? 
                           (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" color={`${theme.palette.primary.main}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" color={plan.stripePriceId === user.role ? null : `${theme.palette.primary.main}` }>
                               <path fill="currentColor" fillRule="evenodd" d="M11.467 3.727c.289.189.37.576.181.865l-4.25 6.5a.625.625 0 0 1-.944.12l-2.75-2.5a.625.625 0 0 1 .841-.925l2.208 2.007l3.849-5.886a.625.625 0 0 1 .865-.181" clipRule="evenodd"/>
                             </svg>
                           ) : null
