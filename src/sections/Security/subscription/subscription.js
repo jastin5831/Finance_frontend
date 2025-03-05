@@ -17,7 +17,7 @@ const Subscription = () => {
     // if plan equals Free,it need create subscription, or not, it need update 
     if (user.role !== priceId) {
       if(user.role === "price_123") {
-        const flag = window.confirm('Do you really Update plan?')
+        const flag = window.confirm('Do you really Create plan?')
         if(flag) {
           const response = await CreateSubscription(priceId, user.email);
           if(response.type === "success") {
