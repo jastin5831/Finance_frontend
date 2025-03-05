@@ -15,38 +15,45 @@ const Subscription = () => {
   
   const handleSubscribe = async (priceId) => {
     // if plan equals Free,it need create subscription, or not, it need update 
-    console.log("priceId:", priceId, "userId", user.role)
     if (user.role !== priceId) {
       if(user.role === "price_123") {
-        const response = await CreateSubscription(priceId, user.email);
-        if(response.type === "success") {
-          toast.success('go next step!', {theme: "colored"});
-          window.location.href = response.data
-        }else {
-          toast.warn('Create subscripton error!', {theme: "colored"})
+        const flag = window.confirm('Do you really Update plan?')
+        if(flag) {
+          const response = await CreateSubscription(priceId, user.email);
+          if(response.type === "success") {
+            toast.success('go next step!', {theme: "colored"});
+            window.location.href = response.data
+          }else {
+            toast.warn('Create subscripton error!', {theme: "colored"})
+          }
         }
       } else if(priceId === "price_123") {
-        const response = await CancelSubscription(user.email)
-        if(response.type === "success") {
-          toast.success("You successfully Canceled Subscription!", {theme:"colored"})
-          await setRole?.("price_123", user)          
-        } else {
-          toast.warn("Cancel Subscription error!",{theme:"colored"})
+        const flag = window.confirm('Do you really cancel plan?')
+        if(flag) {
+          const response = await CancelSubscription(user.email)
+          if(response.type === "success") {
+            toast.success("You successfully Canceled Subscription!", {theme:"colored"})
+            await setRole?.("price_123", user)          
+          } else {
+            toast.warn("Cancel Subscription error!",{theme:"colored"})
+          }
         }
       } else {
-        const response = await UpdateSubscription(priceId, user.email);
-        if(response.type === "success") {
-          toast.success("You successfully Upgraded Subscription!",{theme: "colored"});
-          await setRole?.(response.data, user)          
-        }else {
-          toast.warn('Update subscripton error!', {theme: "colored"})
+        const flag = window.confirm('Do you really Update plan?')
+        if(flag) {
+          const response = await UpdateSubscription(priceId, user.email);
+          if(response.type === "success") {
+            toast.success("You successfully Upgraded Subscription!",{theme: "colored"});
+            await setRole?.(response.data, user)          
+          }else {
+            toast.warn('Update subscripton error!', {theme: "colored"})
+          }
         }
       }
     } else {
       toast.warn('This plan already choosen!', {theme: "colored"})
     }
   };
-  
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Box

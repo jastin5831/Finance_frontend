@@ -77,10 +77,10 @@ export function AuthProvider({ children }) {
         const { user } = response.data.data;
         const logData = {...user}
         await axios.post(endpoints.subscription.get, {email: user.email})
-            .then(res => {
-              logData.role = res.data.plan ? res.data.plan : 'price_123';
-            })
-            .catch(err => {logData.role = 'price_123'})
+          .then(res => {
+            logData.role = res.data.plan ? res.data.plan : 'price_123';
+          })
+          .catch(err => {logData.role = 'price_123'})
 
         dispatch({
           type: 'INITIAL',
@@ -120,10 +120,10 @@ export function AuthProvider({ children }) {
     
     const logData = {...user}
     await axios.post(endpoints.subscription.get, {email})
-            .then(res => {
-              logData.role = res.data.plan ? res.data.plan : 'price_123';
-            })
-            .catch(err => {console.log(err)})
+      .then(res => {
+        logData.role = res.data.plan ? res.data.plan : 'price_123';
+      })
+      .catch(err => {logData.role = 'price_123'})
 
     dispatch({
       type: 'LOGIN',
@@ -215,7 +215,6 @@ export function AuthProvider({ children }) {
       loading: status === 'loading',
       authenticated: status === 'authenticated',
       unauthenticated: status === 'unauthenticated',
-      //
       login,
       register,
       update,
