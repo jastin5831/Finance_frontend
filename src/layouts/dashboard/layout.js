@@ -55,17 +55,17 @@ export default function DashboardLayout({ children }) {
   const renderModal = (
     <Modal open={openModal} onClose={() => handleModal(false)}>
       <Box sx={{ ...modalStyle, position: 'relative' }}>
-      <IconButton 
-        onClick={() => handleModal(false)} 
-        sx={{ position: 'absolute', top: 8, right: 8, color: 'gray' }}
-      >
-        <CloseIcon />
-      </IconButton>
+        <IconButton 
+          onClick={() => handleModal(false)} 
+          sx={{ position: 'absolute', top: 8, right: 8, color: 'gray' }}
+        >
+          <CloseIcon />
+        </IconButton>
 
-      <h2 style={{ textAlign: 'center' }}>Update Profile</h2>
-      
-      <UpdateProfile />
-    </Box>
+        <h2 style={{ textAlign: 'center' }}>Update Profile</h2>
+        
+        <UpdateProfile />
+      </Box>
     </Modal>
   );
 

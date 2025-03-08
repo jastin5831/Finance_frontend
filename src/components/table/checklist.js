@@ -23,16 +23,16 @@ const ChecklistTable = ({COAResult, updateCOA}) => {
   const setCOA = (acc, cag) => {
     const tempData = JSON.parse(JSON.stringify(COAResult))
     tempData.map(coa => {
-        if(coa[1] === acc) {
-            if(coa[4] === '') {
-                coa[4] = cag; 
-            } else if(coa[4] === cag){
-                coa[4] = ''; 
-            } else {
-                toast.error('select only one category', {theme: "colored"})
-            }
-        }
-        return true;
+      if(coa[1] === acc) {
+          if(coa[4] === '') {
+            coa[4] = cag; 
+          } else if(coa[4] === cag){
+            coa[4] = ''; 
+          } else {
+            toast.error('select only one category', {theme: "colored"})
+          }
+      }
+      return true;
     })
     updateCOA(tempData)
   }
@@ -53,62 +53,62 @@ const ChecklistTable = ({COAResult, updateCOA}) => {
 
   return (
     <>
-      <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  Category/Account
+      <TableContainer sx={{borderRadius:2, borderBottomRightRadius:0, borderBottomLeftRadius:0}}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                Category/Account
+              </TableCell>
+              {standardCOA.map((title, index) => (
+                <TableCell key={index} style={{ textAlign: 'center' }}>
+                  {title}
                 </TableCell>
-                {standardCOA.map((title, index) => (
-                  <TableCell key={index} style={{ textAlign: 'center' }}>
-                    {title}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedData.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedData.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                <TableCell
+                  style={{
+                    padding: '20px',
+                    textAlign: 'center',
+                  }}
+                >
+                  {row[1]}
+                </TableCell>
+                {standardCOA.map((cell, cellIndex) => (
                   <TableCell
+                    key={cellIndex}
                     style={{
                       padding: '20px',
                       textAlign: 'center',
                     }}
                   >
-                    {row[1]}
+                    <Checkbox 
+                      checked={row[4] === cell}
+                      onClick={(e) => {
+                          setCOA(row[1],cell);
+                      }}  
+                    />
                   </TableCell>
-                  {standardCOA.map((cell, cellIndex) => (
-                    <TableCell
-                      key={cellIndex}
-                      style={{
-                        padding: '20px',
-                        textAlign: 'center',
-                      }}
-                    >
-                      <Checkbox 
-                        checked={row[4] === cell}
-                        onClick={(e) => {
-                            setCOA(row[1],cell);
-                        }}  
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <TablePagination
-            rowsPerPageOptions={[7, 15, 25]}
-            component="div"
-            count={COAResult.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+      <TablePagination
+          rowsPerPageOptions={[7, 15, 25]}
+          component="div"
+          count={COAResult.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   )
 }
