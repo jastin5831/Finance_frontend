@@ -15,3 +15,15 @@ export const plans = [
   { title: "Basic", price: "$10/month", stripePriceId: "price_1Qx5W34SsMf0AuzyTYpp6f6S", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support"] },
   { title: "Pro",   price: "$50/month", stripePriceId: "price_1Qx5kR4SsMf0AuzycsmSGmTL", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support", "Advanced Analytics", "Priority Support", "Multi-User Access"] },
 ];
+
+export const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};

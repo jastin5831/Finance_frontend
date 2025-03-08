@@ -51,7 +51,7 @@ export default function JwtLandingPage() {
           pb: "10px"  
         }}
       />
-      <Box sx={{display: "flex", flexDirection: "column",textAlign: "center", alignItems: "center", mt: "5%", mb:"10%"}}>
+      <Box sx={{display: "flex", flexDirection: "column",textAlign: "center", alignItems: "center", mt: "5%", mb:"13%"}}>
         <Typography component="pre" variant="h1" mt={10} padding={5}>
           {`Empower Your Business 
                                           with Smart Financial Solutions`}

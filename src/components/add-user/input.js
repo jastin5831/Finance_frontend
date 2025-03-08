@@ -3,47 +3,42 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import {LoadingButton} from '@mui/lab';
-import Link from '@mui/material/Link';
+import PropTypes from 'prop-types';
+import { LoadingButton } from '@mui/lab';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
-import { useRouter } from 'src/routes/hooks';
-import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
-export default function JwtRegisterView() {
-  const { register } = useAuthContext();
-  const router = useRouter();
+const AddUserInput = ({ handleModal, addUsers}) => {
   const [errorMsg, setErrorMsg] = useState('');
   const password = useBoolean();
 
-  const RegisterSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+  const UpdateSchema = Yup.object().shape({
+    role: Yup.number()
+      .required('Role is required')
+      .oneOf([1, 2, 3], 'Role must be between 1 and 3'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    name: '',
+    role: 1, // Default to 1
     email: '',
     password: '',
-    role: 1
   };
 
   const methods = useForm({
-    resolver: yupResolver(RegisterSchema),
+    resolver: yupResolver(UpdateSchema),
     defaultValues,
   });
 
@@ -55,57 +50,28 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.email, data.password, data.name,data.role);
-      router.push(paths.dashboard.root);
-    } catch (error) {
-      console.error(error);
+      addUsers({email: data.email, password:data.password, role: data.role})
+      handleModal(false);
       reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
+    } catch (error) {
+      setErrorMsg(error)
+      reset();
     }
   });
-
-  const renderHead = (
-    <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">Get started absolutely free</Typography>
-
-      <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> Already have an account? </Typography>
-
-        <Link href={paths.auth.jwt.login} component={RouterLink} variant="subtitle2">
-          Sign in
-        </Link>
-      </Stack>
-    </Stack>
-  );
-
-  const renderTerms = (
-    <Typography
-      component="div"
-      sx={{
-        color: 'text.secondary',
-        mt: 2.5,
-        typography: 'caption',
-        textAlign: 'center',
-      }}
-    >
-      {'By signing up, I agree to '}
-      <Link underline="always" color="text.primary">
-        Terms of Service
-      </Link>
-      {' and '}
-      <Link underline="always" color="text.primary">
-        Privacy Policy
-      </Link>
-      .
-    </Typography>
-  );
 
   const renderForm = (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-        
-        <RHFTextField name="name" label="Company Name" />
+
+        {/* Role Dropdown */}
+        <RHFTextField name="role" label="Role" select>
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+        </RHFTextField>
+
+
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
@@ -126,24 +92,23 @@ export default function JwtRegisterView() {
         <LoadingButton
           fullWidth
           color="primary"
-          variant='contained'
-          size="large"
+          variant="contained"
+          size="medium"
           type="submit"
           loading={isSubmitting}
         >
-          Create account
+          Add User
         </LoadingButton>
       </Stack>
     </FormProvider>
   );
 
-  return (
-    <>
-      {renderHead}
+  return <>{renderForm}</>;
+};
 
-      {renderForm}
+AddUserInput.propTypes = {
+  handleModal: PropTypes.func,
+  addUsers : PropTypes.func
+};
 
-      {renderTerms}
-    </>
-  );
-}
+export default AddUserInput;

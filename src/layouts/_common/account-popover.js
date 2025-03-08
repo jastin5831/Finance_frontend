@@ -8,7 +8,6 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
 // routes
 import { useRouter } from 'src/routes/hooks';
 // hooks
@@ -99,25 +98,21 @@ export default function AccountPopover({onOpenModal}) {
         </Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Box>
-          <Grid container justifyContent='space-evenly'>
-            <Grid item lg={4} >
-              <MenuItem
-                onClick={updateProfile}
-                sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign:'center' }}
-              >
-                Update
-              </MenuItem>
-            </Grid>
-            <Grid item lg={4} >
-              <MenuItem
-                onClick={handleLogout}
-                sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign: 'center'}}
-              >
-                Logout
-              </MenuItem>
-            </Grid>
-          </Grid>
+        <Box sx={{display:'flex', justifyContent:'space-evenly'}}>
+          {user.name !== "" && 
+            <MenuItem
+              onClick={updateProfile}
+              sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign:'center' }}
+            >
+              Update
+            </MenuItem>
+          }
+          <MenuItem
+            onClick={handleLogout}
+            sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main', textAlign: 'center'}}
+          >
+            Logout
+          </MenuItem>
         </Box>
       </CustomPopover>
     </>
