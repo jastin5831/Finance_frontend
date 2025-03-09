@@ -15,12 +15,25 @@ const userTitle = [
   "No", "Email", "Role", "Company", "Action"
 ]
 
+const userCount = {
+  price_123 : 1,
+  price_1Qx5W34SsMf0AuzyTYpp6f6S: 3,
+  price_1Qx5kR4SsMf0AuzycsmSGmTL: 5
+}
+
 const UserManagement = () => {
   const settings = useSettingsContext();
   const [users, setUsers] = useState([])
   const {user} = useAuthContext();
   const [openModal, setOpenModal] = useState(false)
-  const handleModal = (value) => setOpenModal(value);
+  
+  const handleModal = (value) => {
+    if(users.length >= userCount[user.subscription]) {
+      toast.warn('update your subscription, user count limited!', {theme:'colored'})      
+    } else {
+      setOpenModal(value)
+    }
+  };
 
   const addUsers = async (data) => {
     try {
