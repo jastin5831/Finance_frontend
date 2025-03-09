@@ -22,8 +22,8 @@ const ICONS = {
   help: <MarkUnreadChatAltOutlinedIcon fontSize='medium'/>
 };
 
-export function useNavData() {
-  const data = useMemo(
+export function useNavData(role) {
+  const admin = useMemo(
     () => [
       {
         subheader: 'Financial Statement',
@@ -68,5 +68,45 @@ export function useNavData() {
     []
   );
 
+  const users = useMemo(
+    () => [
+      {
+        subheader: 'Financial Statement',
+        items: [
+          { title: 'Income Statement', path: paths.dashboard.root, icon: ICONS.dashboard },
+        ],
+      },
+      {
+        subheader: 'Budgeting & Forecasting',
+        items: [
+          {
+            title: 'Forecast Revenue',
+            path: paths.dashboard.forecastRevnue,
+            icon: ICONS.forecastRevnue,
+          },
+        ],
+      },
+      {
+        subheader: 'Data Upload',
+        items: [
+          { title: 'COA Upload', path: paths.dashboard.coaUpload, icon: ICONS.coa },
+          { title: 'Transaction Upload', path: paths.dashboard.transactionUpload, icon: ICONS.transaction },
+        ],
+      },
+      {
+        subheader: 'Security',
+        items: [
+          { title: 'Help', path: paths.dashboard.help, icon: ICONS.help}
+        ],
+      },
+    ],
+    []
+  );
+  let data;
+  if(role) {
+    data = users;
+  } else {
+    data = admin;
+  }
   return data;
 }

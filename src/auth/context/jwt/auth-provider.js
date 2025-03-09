@@ -78,9 +78,9 @@ export function AuthProvider({ children }) {
         const logData = {...user}
         await axios.post(endpoints.subscription.get, {email: user.email})
           .then(res => {
-            logData.role = res.data.plan ? res.data.plan : 'price_123';
+            logData.subscription = res.data.plan ? res.data.plan : 'price_123';
           })
-          .catch(err => {logData.role = 'price_123'})
+          .catch(err => true)
 
         dispatch({
           type: 'INITIAL',
@@ -121,9 +121,9 @@ export function AuthProvider({ children }) {
     const logData = {...user}
     await axios.post(endpoints.subscription.get, {email})
       .then(res => {
-        logData.role = res.data.plan ? res.data.plan : 'price_123';
+        logData.subscription = res.data.plan ? res.data.plan : 'price_123';
       })
-      .catch(err => {logData.role = 'price_123'})
+      .catch(err => true)
 
     dispatch({
       type: 'LOGIN',
@@ -132,12 +132,11 @@ export function AuthProvider({ children }) {
   }, []);
 
   const register = useCallback(
-    async (email, password, name, role) => {
+    async (email, password, name) => {
       const data = {
         email,
         password,
-        name,
-        role
+        name
       };
 
       try {
@@ -146,7 +145,7 @@ export function AuthProvider({ children }) {
         const registerData = {...user}
         // Store the accessToken in sessionStorage
         sessionStorage.setItem(STORAGE_KEY, accessToken);
-        registerData.role = 'price_123';
+        registerData.subscription = 'price_123';
         dispatch({
           type: 'REGISTER',
           payload: registerData
@@ -173,7 +172,7 @@ export function AuthProvider({ children }) {
 
       sessionStorage.setItem(STORAGE_KEY, accessToken);
       const updateData = {...user}
-      updateData.role = initialState.user.role;
+      updateData.subscription = initialState.user.subscription;
       // Dispatch REGISTER action
       dispatch({
         type: 'UPDATE',
@@ -184,16 +183,16 @@ export function AuthProvider({ children }) {
     }
   },[])
   
-  const setRole = useCallback((role, user) => {
+  const setSubscription = useCallback((subscription, user) => {
     try {
       const updateData = {...user}
-      updateData.role = role
+      updateData.subscription = subscription
       dispatch({
         type: 'UPDATE',
         payload: updateData
       })
     } catch (error) {
-      console.log('setRoleErr:',error)
+      console.log('setSubscriptionErr:',error)
     }
   },[])
   // LOGOUT
@@ -220,9 +219,9 @@ export function AuthProvider({ children }) {
       register,
       update,
       logout,
-      setRole,
+      setSubscription,
     }),
-    [login, logout, register, update, setRole, userData, status]
+    [login, logout, register, update, setSubscription, userData, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
