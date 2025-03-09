@@ -8,11 +8,11 @@ import Logo from 'src/components/logo';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
 // components
 import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
 import { NavSectionVertical } from 'src/components/nav-section';
+import { useAuthContext } from 'src/auth/hooks';
 //
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
@@ -21,13 +21,12 @@ import { NavToggleButton } from '../_common';
 // ----------------------------------------------------------------------
 
 export default function NavVertical({ openNav, onCloseNav }) {
-  const { user } = useMockedUser();
-
+  const {user} = useAuthContext();
   const pathname = usePathname();
 
   const lgUp = useResponsive('up', 'lg');
 
-  const navData = useNavData();
+  const navData = useNavData(user.role);
 
   useEffect(() => {
     if (openNav) {

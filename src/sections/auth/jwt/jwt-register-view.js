@@ -39,7 +39,6 @@ export default function JwtRegisterView() {
     name: '',
     email: '',
     password: '',
-    role: 1
   };
 
   const methods = useForm({
@@ -55,7 +54,7 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.email, data.password, data.name,data.role);
+      await register?.(data.email, data.password, data.name);
       router.push(paths.dashboard.root);
     } catch (error) {
       console.error(error);

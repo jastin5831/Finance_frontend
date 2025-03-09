@@ -11,12 +11,12 @@ import { CancelSubscription, CreateSubscription, UpdateSubscription } from 'src/
 const Subscription = () => {
   const settings = useSettingsContext();
   const theme = useTheme()
-  const {user, setRole} = useAuthContext() 
+  const {user, setSubscription} = useAuthContext() 
   
   const handleSubscribe = async (priceId) => {
     // if plan equals Free,it need create subscription, or not, it need update 
-    if (user.role !== priceId) {
-      if(user.role === "price_123") {
+    if (user.subscription !== priceId) {
+      if(user.subscription === "price_123") {
         const flag = window.confirm('Do you really Create plan?')
         if(flag) {
           const response = await CreateSubscription(priceId, user.email);
@@ -33,7 +33,7 @@ const Subscription = () => {
           const response = await CancelSubscription(user.email)
           if(response.type === "success") {
             toast.success("You successfully Canceled Subscription!", {theme:"colored"})
-            await setRole?.("price_123", user)          
+            await setSubscription?.("price_123", user)          
           } else {
             toast.warn("Cancel Subscription error!",{theme:"colored"})
           }
@@ -44,7 +44,7 @@ const Subscription = () => {
           const response = await UpdateSubscription(priceId, user.email);
           if(response.type === "success") {
             toast.success("You successfully Upgraded Subscription!",{theme: "colored"});
-            await setRole?.(response.data, user)          
+            await setSubscription?.(response.data, user)          
           }else {
             toast.warn('Update subscripton error!', {theme: "colored"})
           }
@@ -71,8 +71,8 @@ const Subscription = () => {
                 key={plan.title} 
                 sx={{ 
                   p: 4, borderRadius: "1rem", textAlign: "center", boxShadow: 3, 
-                  bgcolor: user.role === plan.stripePriceId ? theme.palette.primary.dark : "background.paper",
-                  color: user.role === plan.stripePriceId ? theme.palette.primary.contrastText : "inherit"
+                  bgcolor: user.subscription === plan.stripePriceId ? theme.palette.primary.dark : "background.paper",
+                  color: user.subscription === plan.stripePriceId ? theme.palette.primary.contrastText : "inherit"
                 }}
               >
                 <CardContent>
@@ -84,7 +84,7 @@ const Subscription = () => {
                         <Typography sx={{ mb: 1 }} variant='h6'>{item}</Typography>
                         {plan.features.includes(item) ? 
                           (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" color={plan.stripePriceId === user.role ? null : `${theme.palette.primary.main}` }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" color={plan.stripePriceId === user.subscription ? null : `${theme.palette.primary.main}` }>
                               <path fill="currentColor" fillRule="evenodd" d="M11.467 3.727c.289.189.37.576.181.865l-4.25 6.5a.625.625 0 0 1-.944.12l-2.75-2.5a.625.625 0 0 1 .841-.925l2.208 2.007l3.849-5.886a.625.625 0 0 1 .865-.181" clipRule="evenodd"/>
                             </svg>
                           ) : null
