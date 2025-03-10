@@ -59,12 +59,19 @@ export default function DataForecast() {
     setUploadState(true)
     const saveDate = dayjs(currentDate).format('MMMM YYYY');
     const dateflag = dayjs(currentDate).year()*100 + dayjs(currentDate).month();
-    const data = {
+
+    const data = user.role === 1 ? {
       userId: user._id,
       date: saveDate,
       dateFlag: dateflag,
       data: result
+    } : {
+      userId: user.parent,
+      date: saveDate,
+      dateFlag: dateflag,
+      data: result
     }
+
     if(!data.data || data.data.length === 0) {
       toast.error('Monthly Result data required!',{theme: "colored"})
       setUploadState(false)
@@ -86,10 +93,14 @@ export default function DataForecast() {
           const startDate = dayjs(selectedDate.from).year()*100 + dayjs(selectedDate.from).month();
           const endDate = dayjs(selectedDate.to).year()*100 + dayjs(selectedDate.to).month();
           const dateRange = {from:startDate, to:endDate}
-          const data = {
+          const data = user.role === 1 ? {
             userId: user._id,
             date: dateRange
+          } : {
+            userId: user.parent,
+            date: dateRange
           }
+
           const response = await GetForecast(data);
           if(response.type === 'success') {
             toast.success('History successfully loaded!', {theme:'colored'})
@@ -105,7 +116,7 @@ export default function DataForecast() {
       }
     };
     fetchForecast();
-  }, [selectedDate, user._id]);
+  }, [selectedDate, user._id, user.parent, user.role]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

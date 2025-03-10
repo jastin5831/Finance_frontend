@@ -44,10 +44,15 @@ export default function IncomeStatement() {
           const startDate = dayjs(selectedDate.from).year()*100 + dayjs(selectedDate.from).month();
           const endDate = dayjs(selectedDate.to).year()*100 + dayjs(selectedDate.to).month();
           const dateRange = {from:startDate, to:endDate}
-          const data = {
+          
+          const data = user.role === 1 ? {
             userId: user._id,
             date: dateRange
+          } : {
+            userId: user.parent,
+            date: dateRange
           }
+
           const response = await GetRevenueByMonth(data);
           if(response.type === "success") {
             toast.success("Revenue Successfully Upload!",{theme: "colored"});
@@ -65,11 +70,11 @@ export default function IncomeStatement() {
       }
     };
     fetchRevenue();
-  }, [selectedDate, user._id, coa]);
+  }, [selectedDate, user._id, user.parent, user.role, coa]);
 
   useEffect(() => {
     const fetchCOA = async () => {
-      const data = { userId: user._id };
+      const data = user.role === 1 ? { userId: user._id } : {userId: user.parent};
       const response = await GetCOA(data);
       if(response.type === "success") {
         toast.success("COA Successfully Upload!",{theme: "colored"});
@@ -79,7 +84,7 @@ export default function IncomeStatement() {
       }
     };
     fetchCOA();
-  }, [user._id]);
+  }, [user._id, user.parent, user.role]);
   
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

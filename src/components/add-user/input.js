@@ -26,13 +26,13 @@ const AddUserInput = ({ handleModal, addUsers}) => {
   const UpdateSchema = Yup.object().shape({
     role: Yup.number()
       .required('Role is required')
-      .oneOf([1, 2, 3], 'Role must be between 1 and 3'),
+      .oneOf([2, 3], 'Role must be between 2 and 3'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    role: 1, // Default to 1
+    role: 2, // Default to 2
     email: '',
     password: '',
   };
@@ -66,7 +66,6 @@ const AddUserInput = ({ handleModal, addUsers}) => {
 
         {/* Role Dropdown */}
         <RHFTextField name="role" label="Role" select>
-          <MenuItem value={1}>1</MenuItem>
           <MenuItem value={2}>2</MenuItem>
           <MenuItem value={3}>3</MenuItem>
         </RHFTextField>

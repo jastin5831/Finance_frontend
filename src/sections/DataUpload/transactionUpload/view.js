@@ -49,19 +49,30 @@ export default function TransactionUpload() {
     const saveDate = dayjs(currentDate).format('MMMM YYYY');
     const dateflag = dayjs(currentDate).year()*100 + dayjs(currentDate).month();
 
-    const ISData = {
+    const ISData = user.role === 1 ? {
       userId: user._id,
+      date: saveDate,
+      dateFlag: dateflag,
+      data: IsData
+    } : {
+      userId: user.parent,
       date: saveDate,
       dateFlag: dateflag,
       data: IsData
     }
     
-    const BSData = {
+    const BSData = user.role === 1 ? {
       userId: user._id,
       date: saveDate,
       dateFlag: dateflag,
       data: BsData
+    } : {
+      userId: user.parent,
+      date: saveDate,
+      dateFlag: dateflag,
+      data: BsData
     }
+
     createRevenue(ISData,setIsData,setUploadState, COAResult)
     createBS(BSData,setUploadState,setBsData)
     setResult([...IsData,...BsData])
@@ -70,7 +81,7 @@ export default function TransactionUpload() {
   useEffect(()=>{
     const getRevenue = async () => {
       const saveDate = dayjs(currentDate).format('MMMM YYYY');
-      const data = {userId: user._id, date: saveDate}
+      const data = user.role === 1 ? {userId: user._id, date: saveDate} : {userId: user.parent, date: saveDate}
       const response = await GetRevenue(data)
       if(response.type === "success") {
         toast.success("Revenue Successfully Upload!",{theme: "colored"});
@@ -82,7 +93,7 @@ export default function TransactionUpload() {
 
     const getBalanceSheet = async () => {
       const saveDate = dayjs(currentDate).format('MMMM YYYY');
-      const data = {userId: user._id, date: saveDate}
+      const data = user.role === 1 ? {userId: user._id, date: saveDate} : {userId: user.parent, date: saveDate}
       const response = await GetBalanceSheet(data)
       if(response.type === "success") {
         toast.success("BalanceSheet Successfully Upload!",{theme: "colored"});
@@ -93,7 +104,7 @@ export default function TransactionUpload() {
     }
 
     const getCOA = async () => {
-      const data = {userId: user._id}
+      const data = user.role === 1 ? {userId: user._id} : {userId: user.parent};
       const response = await GetCOA(data)
       if(response.type === "success") {
         toast.success("COA Successfully Upload!",{theme: "colored"});
@@ -106,7 +117,7 @@ export default function TransactionUpload() {
     getCOA()
     getRevenue()
     getBalanceSheet()
-  },[currentDate, user._id])
+  },[currentDate, user._id, user.parent, user.role])
   
   useEffect(() => {
     const tempData = [...IsData, ...BsData]
