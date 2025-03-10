@@ -108,8 +108,11 @@ const BalaceSheetAnalysis = () => {
           const startDate = dayjs(selectedDate.from).year()*100 + dayjs(selectedDate.from).month();
           const endDate = dayjs(selectedDate.to).year()*100 + dayjs(selectedDate.to).month();
           const dateRange = {from:startDate, to:endDate}
-          const data = {
+          const data = user.role === 1 ? {
             userId: user._id,
+            date: dateRange
+          } : {
+            userId: user.parent,
             date: dateRange
           }
           const response = await GetBalanceSheetByMonth(data);
@@ -127,7 +130,7 @@ const BalaceSheetAnalysis = () => {
       }
     };
     fetchBalanceSheet();
-  }, [selectedDate, user._id]);
+  }, [selectedDate, user._id, user.parent, user.role]);
 
   useEffect(() => {
     if(exportData) {

@@ -35,10 +35,16 @@ export default function CoaUpload() {
       return true;
     })
 
-    const data = {
-      userId: user._id,
-      data: tempResult
-    }
+    console.log(user.parent, user.role)
+    const data = user.role === 1 ? 
+      {
+        userId: user._id,
+        data: tempResult
+      } :
+      {
+        userId: user.parent,
+        data: tempResult
+      } 
     if(!data.data || data.data.length === 0) {
       toast.error('COA data required!',{theme: "colored"})
       setUploadCOA(false)
@@ -62,7 +68,7 @@ export default function CoaUpload() {
 
   useEffect(()=>{
     const getCOA = async () => {
-      const data = {userId: user._id}
+      const data = user.role === 1 ? {userId: user._id} : {userId: user.parent}
       const response = await GetCOA(data)
       if(response.type === "success") {
         toast.success("COA Successfully Upload!",{theme: "colored"});
@@ -78,7 +84,7 @@ export default function CoaUpload() {
     }
 
     getCOA()
-  },[user._id])
+  },[user._id, user.parent, user.role])
   
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

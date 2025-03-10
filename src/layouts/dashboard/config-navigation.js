@@ -68,7 +68,7 @@ export function useNavData(role) {
     []
   );
 
-  const users = useMemo(
+  const users1 = useMemo(
     () => [
       {
         subheader: 'Financial Statement',
@@ -102,11 +102,41 @@ export function useNavData(role) {
     ],
     []
   );
+  const users2 = useMemo(
+    () => [
+      {
+        subheader: 'Financial Statement',
+        items: [
+          { title: 'Income Statement', path: paths.dashboard.root, icon: ICONS.dashboard },
+        ],
+      },
+      {
+        subheader: 'Budgeting & Forecasting',
+        items: [
+          {
+            title: 'Forecast Revenue',
+            path: paths.dashboard.forecastRevnue,
+            icon: ICONS.forecastRevnue,
+          },
+        ],
+      },
+      {
+        subheader: 'Security',
+        items: [
+          { title: 'Help', path: paths.dashboard.help, icon: ICONS.help}
+        ],
+      },
+    ],
+    []
+  );
+
   let data;
-  if(role) {
-    data = users;
-  } else {
+  if(role === 1) {
     data = admin;
+  } else if(role === 2) {
+    data = users1;
+  } else {
+    data = users2;
   }
   return data;
 }
