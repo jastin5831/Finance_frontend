@@ -25,6 +25,7 @@ const Subscription = () => {
             window.location.href = response.data
           }else {
             toast.warn('Create subscripton error!', {theme: "colored"})
+            console.log(response.data)
           }
         }
       } else if(priceId === "price_1R0Xe902EF3FQcIQvGKOMZ9S") {
