@@ -16,7 +16,7 @@ const Subscription = () => {
   const handleSubscribe = async (priceId) => {
     // if plan equals Free,it need create subscription, or not, it need update 
     if (user.subscription !== priceId) {
-      if(user.subscription === "price_123") {
+      if(user.subscription === "price_1R0Xe902EF3FQcIQvGKOMZ9S") {
         const flag = window.confirm('Do you really Create plan?')
         if(flag) {
           const response = await CreateSubscription(priceId, user.email);
@@ -25,15 +25,16 @@ const Subscription = () => {
             window.location.href = response.data
           }else {
             toast.warn('Create subscripton error!', {theme: "colored"})
+            console.log(response.data)
           }
         }
-      } else if(priceId === "price_123") {
+      } else if(priceId === "price_1R0Xe902EF3FQcIQvGKOMZ9S") {
         const flag = window.confirm('Do you really cancel plan?')
         if(flag) {
           const response = await CancelSubscription(user.email)
           if(response.type === "success") {
             toast.success("You successfully Canceled Subscription!", {theme:"colored"})
-            await setSubscription?.("price_123", user)          
+            await setSubscription?.("price_1R0Xe902EF3FQcIQvGKOMZ9S", user)          
           } else {
             toast.warn("Cancel Subscription error!",{theme:"colored"})
           }

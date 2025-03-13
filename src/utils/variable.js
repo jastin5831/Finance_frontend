@@ -11,9 +11,9 @@ export const allFeatures = [
 ]
 
 export const plans = [
-  { title: "Free",  price: "$0/month",  stripePriceId: "price_123", features: ["Basic Reports", "Limited Transactions", "Community Support"] },
-  { title: "Basic", price: "$10/month", stripePriceId: "price_1Qx5W34SsMf0AuzyTYpp6f6S", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support"] },
-  { title: "Pro",   price: "$50/month", stripePriceId: "price_1Qx5kR4SsMf0AuzycsmSGmTL", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support", "Advanced Analytics", "Priority Support", "Multi-User Access"] },
+  { title: "Free Trial Plan",  price: "$0/month",  stripePriceId: "price_1R0Xe902EF3FQcIQvGKOMZ9S", features: ["Basic Reports", "Limited Transactions", "Community Support"] },
+  { title: "Single Member", price: "$10/month", stripePriceId: "price_1R1clP02EF3FQcIQYmFj9rxn", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support"] },
+  { title: "Enterprise Plan",   price: "$50/month", stripePriceId: "price_1R0XeD02EF3FQcIQDMxYwv7D", features: ["Community Support", "Full Reports", "Unlimited Transactions", "Email Support", "Advanced Analytics", "Priority Support", "Multi-User Access"] },
 ];
 
 export const modalStyle = {

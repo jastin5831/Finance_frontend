@@ -1,18 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect, useReducer, useCallback, useMemo } from 'react';
-// utils
 import axios, { endpoints } from 'src/utils/axios';
-//
 import { AuthContext } from './auth-context';
 import { isValidToken, setSession } from './utils';
-
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
-
-// ----------------------------------------------------------------------
 
 const initialState = {
   user: null,
@@ -77,10 +67,8 @@ export function AuthProvider({ children }) {
         const { user } = response.data.data;
         const logData = {...user}
         await axios.post(endpoints.subscription.get, {email: user.email})
-          .then(res => {
-            logData.subscription = res.data.plan ? res.data.plan : 'price_123';
-          })
-          .catch(err => true)
+          .then(res => { logData.subscription = res.data.plan})
+          .catch(err => {logData.subscription = 'price_1R0Xe902EF3FQcIQvGKOMZ9S'})
 
         dispatch({
           type: 'INITIAL',
@@ -120,10 +108,8 @@ export function AuthProvider({ children }) {
     
     const logData = {...user}
     await axios.post(endpoints.subscription.get, {email})
-      .then(res => {
-        logData.subscription = res.data.plan ? res.data.plan : 'price_123';
-      })
-      .catch(err => true)
+      .then(res => { logData.subscription = res.data.plan})
+      .catch(err => {logData.subscription = 'price_1R0Xe902EF3FQcIQvGKOMZ9S'})
 
     dispatch({
       type: 'LOGIN',
@@ -146,7 +132,7 @@ export function AuthProvider({ children }) {
         const registerData = {...user}
         // Store the accessToken in sessionStorage
         sessionStorage.setItem(STORAGE_KEY, accessToken);
-        registerData.subscription = 'price_123';
+        registerData.subscription = 'price_1R0Xe902EF3FQcIQvGKOMZ9S';
         dispatch({
           type: 'REGISTER',
           payload: registerData
