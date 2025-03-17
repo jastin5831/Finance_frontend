@@ -38,9 +38,17 @@ const Landing = () => {
       minWidth:"100%", alignItems: "center", textAlign: "center", position: "relative", 
     }}>
       {/* Header */}
-      <AppBar position="fixed" color="inherit" elevation={1}>
-        <Box display="flex" alignItems="center" justifyContent="space-between" py={2}>
-          <Box display="flex" alignItems="center" gap={1} paddingLeft={6} sx={{height:"30px"}}>
+      <AppBar 
+        position="fixed" color="inherit" elevation={1} 
+        sx={{
+          maxHeight:"70px",
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          backdropFilter: "blur(10px)",
+          boxShadow: 'none', 
+        }}
+      >
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box display="flex" alignItems="center" gap={1} paddingLeft={6}>
             <Logo/> 
           </Box>
           <Box 
