@@ -16,8 +16,8 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
         src="/logo/logo.png"
         alt="Logo"
         sx={{
-          width: {xl:80, lg: 80, xs:50},
-          height: {xl:80, lg: 80, xs:50},
+          width: {xl:60, lg: 60, xs:50},
+          height: {xl:60, lg: 60, xs:50},
           display: 'inline-flex',
           cursor: 'pointer',
           transition: 'transform 0.3s ease, color 0.3s ease',
