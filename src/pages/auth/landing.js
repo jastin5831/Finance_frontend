@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { alpha, useTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import { bgGradient } from 'src/theme/css';
-import JwtLandingPage from 'src/sections/auth/landing';
+import Landing from 'src/sections/auth/landing';
 
 export default function LoginPage() {
   const theme = useTheme();
@@ -24,7 +24,7 @@ export default function LoginPage() {
       <Helmet>
         <title>financial project for small/medium sized company business</title>
       </Helmet>
-      <JwtLandingPage />
+      <Landing />
     </Stack>
   );
 }
