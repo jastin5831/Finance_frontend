@@ -22,7 +22,7 @@ export default function LoginPage() {
       }}
     >
       <Helmet>
-        <title>financial project for small/medium sized company business</title>
+        <title>AI-Powered Financial Management Platform for small/middle sized companys</title>
       </Helmet>
       <Landing />
     </Stack>

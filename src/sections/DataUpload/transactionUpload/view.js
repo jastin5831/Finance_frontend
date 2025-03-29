@@ -35,7 +35,7 @@ export default function TransactionUpload() {
   };
 
   const handleSetResult = (value) => {
-    const resultData = devide(value);
+    const resultData = devide(value,COAResult);
     const ISResult = aggregate(resultData.IS, 'IS')
     const BSResult = aggregate(resultData.BS, 'BS')
     const tempData = [...ISResult, ...BSResult]
