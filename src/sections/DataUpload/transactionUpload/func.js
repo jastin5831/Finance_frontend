@@ -4,16 +4,21 @@ import {toast } from 'react-toastify';
 import {CreateRevenue, CreateBalanceSheet } from 'src/api/transaction';
 import { CreateForecast } from 'src/api/forecast';
 
-export const devide = (value) => {
-    const ISData = []; 
-    const BSData = [];
-    value.map(item => {
-      if(item[1] !== ''){
-        ISData.push(item)
-      } else {BSData.push(item)}
+export const devide = (value, COAResult) => {
+  const ISData = []; 
+  const BSData = [];
+  value.map(item => {
+    COAResult.map(coa => {
+      if(coa[0] === item[0]) {
+        if(coa[3] !== 'BS'){
+          ISData.push(item)
+        } else {BSData.push(item)}
+      }
       return true
     })
-    return {IS:ISData, BS:BSData}
+    return true
+  })
+  return {IS:ISData, BS:BSData}
 }
 
 export const aggregate = (data,type) => {

@@ -36,7 +36,7 @@ export default function AccountPopover({onOpenModal}) {
   }
   const handleLogout = async () => {
     try {
-      router.replace('/auth/jwt/login');
+      router.replace('/');
       await logout();
     } catch (error) {
       console.error(error);

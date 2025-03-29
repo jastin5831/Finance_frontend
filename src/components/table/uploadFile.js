@@ -45,8 +45,7 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
   const [rowsPerPage, setRowsPerPage] = useState(7);
   
   const formatRow = (row) => {
-    const ISData = [];
-    const BSData = [];
+    const tempData = []
     // filter empty row
     const filteredRow = row.filter(item => item.length !== 0)
     // format row
@@ -62,18 +61,10 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
           tempItem[1] = '';
           tempItem[3] = '';
         }
-        if(item[2] < 0) tempItem[2] =  Math.abs(tempItem[2])
       } 
-      // when transaction upload, item[1] may is undefined or exist. otherwise when coa upload item[1] always exist
-      // so, if item[1] doesn't exist, it is trnasaction upload and it's BS case. 
-      if(item[1]) {
-        ISData.push(tempItem);
-      } else {
-        BSData.push(tempItem);
-      }
+      tempData.push(tempItem)
       return true;
     })
-    const tempData = [...ISData, ...BSData]
     return tempData;
   }
 
@@ -94,7 +85,6 @@ function UploadFile ({onSetResult, currentResult, titleArray}) {
           const rows = jsonData.slice(1);
           const tempRow = formatRow(rows);
           onSetResult(tempRow);
-          setTableData(tempRow);
         }
       };
       reader.readAsArrayBuffer(file);
