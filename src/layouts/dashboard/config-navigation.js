@@ -28,14 +28,14 @@ export function useNavData(role) {
       {
         subheader: 'Financial Statement',
         items: [
-          { title: 'Income Statement', path: paths.dashboard.root, icon: ICONS.dashboard },
+          { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
         ],
       },
       {
         subheader: 'Budgeting & Forecasting',
         items: [
           {
-            title: 'Forecast Revenue',
+            title: 'Transaction & Forecasting',
             path: paths.dashboard.forecastRevnue,
             icon: ICONS.forecastRevnue,
           },
