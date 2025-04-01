@@ -3,18 +3,22 @@ export const fillMissingDates = (data, dateRange) => {
     for (let i = 0; i < tempData.length; i+=1) { 
       const subArray = tempData[i].data;
       const filledSubArray = [];
+      let lifetime_balance = 0;
       // fill missing dates
       for(let j = dateRange.from; j<= dateRange.to; j+=1){
         if(j%100 === 12) {j = j - 12 + 100} 
-        const existingObj = subArray.find(item => item.date === j);
+        const existingObj = subArray.find(item => item.date === j); 
         if (existingObj) {
           filledSubArray.push(existingObj);
+          lifetime_balance += existingObj.amount;
         } else {
           filledSubArray.push({ amount: 0, date: j });
         }
       }
+      tempData[i].lifetime_balance = lifetime_balance;
       tempData[i].data = filledSubArray;
     }
+    console.log('data:', tempData);
     return tempData;
   }
   
