@@ -34,7 +34,7 @@ const BalanceSheetContainer = ({
               {item}
             </TableCell>
           ))}
-          <TableCell>LifeTime Balance</TableCell>
+          <TableCell sx={{textAlign: 'center'}}>LifeTime Balance</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -44,7 +44,7 @@ const BalanceSheetContainer = ({
             {item.data.length > 0 && item.data.map( (data, key) => (
               <TableCell key={key} sx={{textAlign: 'center'}}>{data.amount}</TableCell>
             ))}
-            <TableCell>0</TableCell>
+            <TableCell sx={{textAlign: 'center'}}>{item.lifetime_balance}</TableCell>
           </TableRow>
         ))}
       </TableBody>
